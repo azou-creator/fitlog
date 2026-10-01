@@ -36,9 +36,7 @@ class _FitLogAppState extends ConsumerState<FitLogApp>
     // 没有 pending 内容时 flush 是空操作，不会造成重复写入。
     if (state == AppLifecycleState.inactive ||
         state == AppLifecycleState.paused) {
-      unawaited(
-        ref.read(activeWorkoutProvider.notifier).flushPendingChanges(),
-      );
+      unawaited(ref.read(activeWorkoutProvider.notifier).flushPendingChanges());
     }
   }
 

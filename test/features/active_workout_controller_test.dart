@@ -88,8 +88,8 @@ void main() {
     controller.updateWeight(exId, setId, 80);
     controller.updateReps(exId, setId, 10);
 
-    // _persist 是异步落库，等待事件循环处理完成
-    await Future<void>.delayed(const Duration(milliseconds: 200));
+    // flush 立即落库所有未持久化的修改（debounce 不会丢最后一次输入）
+    await controller.flushPendingChanges();
 
     // 模拟 App 重启：从数据库重新加载进行中的训练
     final inProgress = await WorkoutRepository(db).getInProgressSession();

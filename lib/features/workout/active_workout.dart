@@ -84,8 +84,8 @@ class ActiveWorkoutController extends Notifier<WorkoutDraft?> {
   Future<void> startNew({Exercise? seed}) {
     final pending = _pendingStart;
     if (pending != null) return pending;
-    final op =
-        _startNewNow(seed: seed).whenComplete(() => _pendingStart = null);
+    final op = _startNewNow(seed: seed)
+        .whenComplete(() => _pendingStart = null);
     _pendingStart = op;
     return op;
   }
@@ -215,17 +215,25 @@ class ActiveWorkoutController extends Notifier<WorkoutDraft?> {
   }
 
   void removeExercise(int draftExerciseId) {
-    _update((d) => d.copyWith(exercises: [
+    _update(
+      (d) => d.copyWith(
+        exercises: [
           for (final e in d.exercises)
             if (e.id != draftExerciseId) e,
-        ]));
+        ],
+      ),
+    );
   }
 
   void setExerciseNote(int draftExerciseId, String note) {
-    _update((d) => d.copyWith(exercises: [
+    _update(
+      (d) => d.copyWith(
+        exercises: [
           for (final e in d.exercises)
             if (e.id == draftExerciseId) e.copyWith(note: note) else e,
-        ]));
+        ],
+      ),
+    );
   }
 
   void reorderExercises(int oldIndex, int newIndex) {
@@ -240,16 +248,22 @@ class ActiveWorkoutController extends Notifier<WorkoutDraft?> {
 
   /// 添加一组：重量自动继承该动作最后一组的重量（第一组为空）。
   void addSet(int draftExerciseId) {
-    _update((d) => d.copyWith(exercises: [
+    _update(
+      (d) => d.copyWith(
+        exercises: [
           for (final e in d.exercises)
             if (e.id == draftExerciseId)
-              e.copyWith(sets: [
-                ...e.sets,
-                DraftSet(weight: e.sets.isEmpty ? 0 : e.sets.last.weight),
-              ])
+              e.copyWith(
+                sets: [
+                  ...e.sets,
+                  DraftSet(weight: e.sets.isEmpty ? 0 : e.sets.last.weight),
+                ],
+              )
             else
               e,
-        ]));
+        ],
+      ),
+    );
   }
 
   void updateWeight(int draftExerciseId, int setId, double weight) {
@@ -261,16 +275,22 @@ class ActiveWorkoutController extends Notifier<WorkoutDraft?> {
   }
 
   void removeSet(int draftExerciseId, int setId) {
-    _update((d) => d.copyWith(exercises: [
+    _update(
+      (d) => d.copyWith(
+        exercises: [
           for (final e in d.exercises)
             if (e.id == draftExerciseId)
-              e.copyWith(sets: [
-                for (final s in e.sets)
-                  if (s.id != setId) s,
-              ])
+              e.copyWith(
+                sets: [
+                  for (final s in e.sets)
+                    if (s.id != setId) s,
+                ],
+              )
             else
               e,
-        ]));
+        ],
+      ),
+    );
   }
 
   void _update(WorkoutDraft Function(WorkoutDraft) transform) {
@@ -285,19 +305,26 @@ class ActiveWorkoutController extends Notifier<WorkoutDraft?> {
     int setId,
     DraftSet Function(DraftSet) patch,
   ) {
-    _update((d) => d.copyWith(exercises: [
+    _update(
+      (d) => d.copyWith(
+        exercises: [
           for (final e in d.exercises)
             if (e.id == draftExerciseId)
-              e.copyWith(sets: [
-                for (final s in e.sets)
-                  if (s.id == setId) patch(s) else s,
-              ])
+              e.copyWith(
+                sets: [
+                  for (final s in e.sets)
+                    if (s.id == setId) patch(s) else s,
+                ],
+              )
             else
               e,
-        ]));
+        ],
+      ),
+    );
   }
 }
 
 final activeWorkoutProvider =
     NotifierProvider<ActiveWorkoutController, WorkoutDraft?>(
-        ActiveWorkoutController.new);
+      ActiveWorkoutController.new,
+    );
