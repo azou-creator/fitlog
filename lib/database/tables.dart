@@ -62,3 +62,26 @@ class RunningRecords extends Table {
   DateTimeColumn get createdAt => dateTime().withDefault(currentDateAndTime)();
   DateTimeColumn get updatedAt => dateTime().withDefault(currentDateAndTime)();
 }
+
+/// 照片元数据（v4）。文件本体存在 App 私有媒体目录，DB 只存相对路径。
+///
+/// photoType 使用稳定字符串（workout / body_front / body_side / body_back /
+/// body_other），不用 enum index，避免未来枚举顺序变化导致旧数据错乱。
+/// - 训练照片：photoType = 'workout' 且 workoutSessionId != null
+/// - 身体照片：photoType = body_* 且 workoutSessionId == null
+@TableIndex(name: 'idx_photos_session', columns: {#workoutSessionId})
+class Photos extends Table {
+  IntColumn get id => integer().autoIncrement()();
+  IntColumn get workoutSessionId => integer().nullable().references(
+    WorkoutSessions,
+    #id,
+    onDelete: KeyAction.cascade,
+  )();
+  TextColumn get photoType => text().withLength(min: 1, max: 20)();
+  TextColumn get relativePath => text()();
+  TextColumn get thumbnailRelativePath => text().nullable()();
+  DateTimeColumn get takenAt => dateTime()();
+  TextColumn get note => text().nullable()();
+  DateTimeColumn get createdAt => dateTime().withDefault(currentDateAndTime)();
+  DateTimeColumn get updatedAt => dateTime().nullable()();
+}

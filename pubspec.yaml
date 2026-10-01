@@ -20,8 +20,7 @@ dependencies:
   go_router: ^14.8.1
 
   # 本地数据库
-  drift: ^2.26.0
-  sqlite3_flutter_libs: ^0.5.28
+  drift: ^2.35.1
   path_provider: ^2.1.5
 
   # 图表 / 轻量配置
@@ -32,6 +31,10 @@ dependencies:
   intl: ^0.20.0
   share_plus: ^13.3.0
   file_picker: ^13.1.0
+  image_picker: ^1.2.3
+  uuid: ^4.6.0
+  archive: ^4.3.0
+  image: ^4.10.1
 
 dev_dependencies:
   flutter_test:
@@ -40,8 +43,9 @@ dev_dependencies:
   flutter_lints: ^6.0.0
 
   # Drift 代码生成
-  drift_dev: ^2.26.0
+  drift_dev: ^2.35.1
   build_runner: ^2.4.15
+  sqlite3: ^3.4.0
 
 flutter:
   uses-material-design: true

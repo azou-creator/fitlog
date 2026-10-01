@@ -10,6 +10,9 @@ import '../features/record/record_page.dart';
 import '../features/running/running_detail_page.dart';
 import '../features/running/running_editor_page.dart';
 import '../features/settings/data_management_page.dart';
+import '../features/body/body_photos_page.dart';
+import '../features/photos/photo_providers.dart';
+import '../features/photos/photo_viewer_page.dart';
 import '../features/stats/stats_page.dart';
 import '../features/tools/weight_converter_page.dart';
 import '../features/workout/exercise_picker_page.dart';
@@ -101,6 +104,18 @@ final routerProvider = Provider<GoRouter>((ref) {
       GoRoute(
         path: '/tools/weight-converter',
         builder: (_, _) => const WeightConverterPage(),
+      ),
+      GoRoute(path: '/body-photos', builder: (_, _) => const BodyPhotosPage()),
+      GoRoute(
+        path: '/photo-viewer',
+        builder: (_, state) {
+          final args = state.extra is PhotoViewerArgs
+              ? state.extra as PhotoViewerArgs
+              : null;
+          return PhotoViewerPage(
+            args: args ?? const (photos: [], initialIndex: 0),
+          );
+        },
       ),
     ],
   );

@@ -7,6 +7,8 @@ import '../core/utils/calc.dart' show calcTotalVolume;
 import '../features/workout/workout_draft.dart';
 import 'app_database.dart';
 import 'database_provider.dart';
+import '../core/storage/photo_storage_service.dart';
+import 'photo_repository.dart';
 
 /// session 状态（v2 起存库）。
 class SessionStatus {
@@ -46,7 +48,10 @@ class SessionDetail {
 }
 
 class WorkoutRepository {
-  WorkoutRepository(this._db);
+  WorkoutRepository(this._db, [PhotoStorageService? storage])
+    : _photos = PhotoRepository(_db, storage ?? PhotoStorageService());
+
+  final PhotoRepository _photos;
 
   final AppDatabase _db;
 
@@ -370,12 +375,15 @@ class WorkoutRepository {
     );
   }
 
-  /// 真实删除（级联删除动作与组）。
-  Future<void> deleteSession(int sessionId) {
-    return (_db.delete(
-      _db.workoutSessions,
-    )..where((s) => s.id.equals(sessionId))).go();
-  }
+  /// 所有入口（历史删除、放弃草稿）统一清理照片元数据和媒体文件。
+  Future<void> deleteSession(int sessionId) => _photos.deleteForSession(
+    sessionId,
+    deleteSession: () async {
+      await (_db.delete(
+        _db.workoutSessions,
+      )..where((s) => s.id.equals(sessionId))).go();
+    },
+  );
 
   /// 最近一次已完成训练的详情（首页 / 记录页）。
   Future<SessionDetail?> getLatestSessionDetail() async {
@@ -446,7 +454,10 @@ class WorkoutRepository {
 }
 
 final workoutRepositoryProvider = Provider<WorkoutRepository>(
-  (ref) => WorkoutRepository(ref.watch(appDatabaseProvider)),
+  (ref) => WorkoutRepository(
+    ref.watch(appDatabaseProvider),
+    ref.watch(photoStorageServiceProvider),
+  ),
 );
 
 /// 训练详情（含总结页）。加载失败或不存在返回 null。

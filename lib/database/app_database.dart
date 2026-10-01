@@ -15,6 +15,7 @@ part 'app_database.g.dart';
     WorkoutExercises,
     WorkoutSets,
     RunningRecords,
+    Photos,
   ],
 )
 class AppDatabase extends _$AppDatabase {
@@ -24,7 +25,7 @@ class AppDatabase extends _$AppDatabase {
   AppDatabase.forTesting(super.e);
 
   @override
-  int get schemaVersion => 3;
+  int get schemaVersion => 4;
 
   /// P0：数据库级保证「同一时间最多一个进行中的力量训练」。
   /// 使用 SQLite partial unique index；若老数据中已存在多个 inProgress
@@ -59,10 +60,21 @@ class AppDatabase extends _$AppDatabase {
       if (from < 3) {
         await _createActiveSessionIndexSafely();
       }
+      // v4: 照片元数据表（训练照片 / 身体进度照片）。
+      if (from < 4) {
+        await m.createTable(photos);
+        // createTable 不会自动创建 @TableIndex 声明的独立索引。
+        await m.createIndex(idxPhotosSession);
+      }
     },
     beforeOpen: (details) async {
       // 级联删除依赖外键约束，必须显式开启。
       await customStatement('PRAGMA foreign_keys = ON');
+      // 修复早期 v4 增量实现中升级用户缺失的照片索引。
+      await customStatement(
+        'CREATE INDEX IF NOT EXISTS idx_photos_session '
+        'ON photos (workout_session_id)',
+      );
     },
   );
 }

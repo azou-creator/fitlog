@@ -40,6 +40,14 @@ class MePage extends ConsumerWidget {
                 ),
                 const Divider(indent: 16),
                 ListTile(
+                  leading: const Icon(Icons.accessibility_new_outlined),
+                  title: const Text('身体记录'),
+                  subtitle: const Text('按日期记录身体变化（仅本机）'),
+                  trailing: const Icon(Icons.chevron_right_rounded),
+                  onTap: () => context.push('/body-photos'),
+                ),
+                const Divider(indent: 16),
+                ListTile(
                   leading: const Icon(Icons.storage_rounded),
                   title: const Text('数据管理'),
                   trailing: const Icon(Icons.chevron_right_rounded),

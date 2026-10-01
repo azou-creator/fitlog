@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../core/utils/formatters.dart';
+import '../photos/workout_photos_section.dart';
 import '../../database/workout_repository.dart';
 import '../../shared/widgets/app_snack_bar.dart';
 import '../../shared/widgets/confirm_dialog.dart';
@@ -98,6 +99,8 @@ class WorkoutDetailPage extends ConsumerWidget {
                   ),
                 ),
               ),
+              const SizedBox(height: 12),
+              WorkoutPhotosSection(sessionId: sessionId),
               const SizedBox(height: 12),
               for (final de in detail.exercises)
                 Padding(
@@ -219,7 +222,7 @@ class WorkoutDetailPage extends ConsumerWidget {
       title: '删除这次训练？',
       content: '删除后无法恢复',
     );
-    if (!confirmed) return;
+    if (!confirmed || !context.mounted) return;
     try {
       await ref.read(workoutRepositoryProvider).deleteSession(sessionId);
       ref.invalidate(sessionDetailProvider);
