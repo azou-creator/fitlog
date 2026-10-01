@@ -83,8 +83,11 @@ class DataManagementPage extends ConsumerWidget {
             data: (s) => Card(
               child: Column(
                 children: [
-                  _row(context, '动作',
-                      '${s.exercises} 个（自定义 ${s.customExercises} 个）'),
+                  _row(
+                    context,
+                    '动作',
+                    '${s.exercises} 个（自定义 ${s.customExercises} 个）',
+                  ),
                   const Divider(indent: 16),
                   _row(context, '力量训练', '${s.workouts} 次 · ${s.sets} 组'),
                   const Divider(indent: 16),
@@ -100,8 +103,7 @@ class DataManagementPage extends ConsumerWidget {
                 ListTile(
                   leading: const Icon(Icons.ios_share_rounded),
                   title: const Text('导出数据（JSON）'),
-                  subtitle:
-                      const Text('通过分享面板保存到文件 / iCloud / AirDrop'),
+                  subtitle: const Text('通过分享面板保存到文件 / iCloud / AirDrop'),
                   trailing: const Icon(Icons.chevron_right_rounded),
                   onTap: () => _export(context, ref),
                 ),
@@ -145,13 +147,15 @@ class DataManagementPage extends ConsumerWidget {
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
       child: Row(
         children: [
-          Text(label,
-              style:
-                  TextStyle(fontSize: 15, color: scheme.onSurfaceVariant)),
+          Text(
+            label,
+            style: TextStyle(fontSize: 15, color: scheme.onSurfaceVariant),
+          ),
           const Spacer(),
-          Text(value,
-              style:
-                  const TextStyle(fontSize: 15, fontWeight: FontWeight.w600)),
+          Text(
+            value,
+            style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w600),
+          ),
         ],
       ),
     );
@@ -181,9 +185,7 @@ class DataManagementPage extends ConsumerWidget {
         ),
       );
     } catch (e) {
-      messenger.showSnackBar(
-        const SnackBar(content: Text('导出失败，请重试')),
-      );
+      messenger.showSnackBar(const SnackBar(content: Text('导出失败，请重试')));
     }
   }
 
@@ -207,10 +209,13 @@ class DataManagementPage extends ConsumerWidget {
       json = repo.decode(utf8.decode(await picked.readAsBytes()));
       repo.validateSchema(json);
     } catch (e) {
-      messenger.showSnackBar(SnackBar(
-        content: Text(
-            '无法读取备份文件：${e is FormatException ? e.message : '格式不正确'}'),
-      ));
+      messenger.showSnackBar(
+        SnackBar(
+          content: Text(
+            '无法读取备份文件：${e is FormatException ? e.message : '格式不正确'}',
+          ),
+        ),
+      );
       return;
     }
 
@@ -238,9 +243,7 @@ class DataManagementPage extends ConsumerWidget {
       await repo.importFromJson(json);
       messenger.showSnackBar(const SnackBar(content: Text('导入完成')));
     } catch (e) {
-      messenger.showSnackBar(
-        const SnackBar(content: Text('导入失败，当前数据未变更')),
-      );
+      messenger.showSnackBar(const SnackBar(content: Text('导入失败，当前数据未变更')));
     }
   }
 
@@ -278,9 +281,7 @@ class DataManagementPage extends ConsumerWidget {
       messenger.showSnackBar(const SnackBar(content: Text('已清空全部数据')));
       router.pop();
     } catch (e) {
-      messenger.showSnackBar(
-        const SnackBar(content: Text('清空失败，请重试')),
-      );
+      messenger.showSnackBar(const SnackBar(content: Text('清空失败，请重试')));
     }
   }
 }

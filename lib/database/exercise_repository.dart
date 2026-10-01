@@ -20,7 +20,9 @@ class ExerciseRepository {
       for (final name in names) {
         final key = '$group|$name';
         if (!keys.contains(key)) {
-          missing.add(ExercisesCompanion.insert(name: name, muscleGroup: group));
+          missing.add(
+            ExercisesCompanion.insert(name: name, muscleGroup: group),
+          );
         }
       }
     });
@@ -29,20 +31,21 @@ class ExerciseRepository {
   }
 
   Future<List<Exercise>> getAll() {
-    return (_db.select(_db.exercises)
-          ..orderBy([(e) => OrderingTerm.asc(e.id)]))
-        .get();
+    return (_db.select(
+      _db.exercises,
+    )..orderBy([(e) => OrderingTerm.asc(e.id)])).get();
   }
 
   Stream<List<Exercise>> watchAll() {
-    return (_db.select(_db.exercises)
-          ..orderBy([(e) => OrderingTerm.asc(e.id)]))
-        .watch();
+    return (_db.select(
+      _db.exercises,
+    )..orderBy([(e) => OrderingTerm.asc(e.id)])).watch();
   }
 
   Future<Exercise?> getById(int id) {
-    return (_db.select(_db.exercises)..where((e) => e.id.equals(id)))
-        .getSingleOrNull();
+    return (_db.select(
+      _db.exercises,
+    )..where((e) => e.id.equals(id))).getSingleOrNull();
   }
 
   /// 创建自定义动作。同名同部位已存在时直接返回已有 id（避免重复）。
@@ -51,12 +54,16 @@ class ExerciseRepository {
     required String muscleGroup,
   }) async {
     final trimmed = name.trim();
-    final dup = await (_db.select(_db.exercises)
-          ..where((e) => e.name.equals(trimmed) & e.muscleGroup.equals(muscleGroup)))
-        .getSingleOrNull();
+    final dup =
+        await (_db.select(_db.exercises)..where(
+              (e) => e.name.equals(trimmed) & e.muscleGroup.equals(muscleGroup),
+            ))
+            .getSingleOrNull();
     if (dup != null) return dup.id;
 
-    return _db.into(_db.exercises).insert(
+    return _db
+        .into(_db.exercises)
+        .insert(
           ExercisesCompanion.insert(
             name: trimmed,
             muscleGroup: muscleGroup,
@@ -72,9 +79,9 @@ class ExerciseRepository {
 
   /// 最近使用过的动作（按最近一次训练出现顺序，去重）。
   Future<List<Exercise>> getRecentUsed({int limit = 12}) async {
-    final rows = await (_db.select(_db.workoutExercises)
-          ..orderBy([(u) => OrderingTerm.desc(u.id)]))
-        .get();
+    final rows = await (_db.select(
+      _db.workoutExercises,
+    )..orderBy([(u) => OrderingTerm.desc(u.id)])).get();
 
     final seen = <int>{};
     final orderedIds = <int>[];
@@ -86,10 +93,11 @@ class ExerciseRepository {
     }
     if (orderedIds.isEmpty) return [];
 
-    final byId = {
-      for (final e in await getByIds(orderedIds)) e.id: e,
-    };
-    return [for (final id in orderedIds) if (byId[id] != null) byId[id]!];
+    final byId = {for (final e in await getByIds(orderedIds)) e.id: e};
+    return [
+      for (final id in orderedIds)
+        if (byId[id] != null) byId[id]!,
+    ];
   }
 }
 

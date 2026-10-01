@@ -37,18 +37,12 @@ class EmptyState extends StatelessWidget {
               Text(
                 subtitle!,
                 textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: 13,
-                  color: scheme.onSurfaceVariant,
-                ),
+                style: TextStyle(fontSize: 13, color: scheme.onSurfaceVariant),
               ),
             ],
             if (actionLabel != null) ...[
               const SizedBox(height: 20),
-              FilledButton(
-                onPressed: onAction,
-                child: Text(actionLabel!),
-              ),
+              FilledButton(onPressed: onAction, child: Text(actionLabel!)),
             ],
           ],
         ),

@@ -17,9 +17,9 @@ void main() {
   setUp(() async {
     db = AppDatabase.forTesting(NativeDatabase.memory());
     await ExerciseRepository(db).ensureSeeded();
-    container = ProviderContainer(overrides: [
-      appDatabaseProvider.overrideWithValue(db),
-    ]);
+    container = ProviderContainer(
+      overrides: [appDatabaseProvider.overrideWithValue(db)],
+    );
     // activeWorkoutProvider 是 autoDispose：测试里保持它存活（模拟编辑器页面在 watch）
     container.listen(activeWorkoutProvider, (_, _) {});
   });
@@ -79,8 +79,12 @@ void main() {
     final exId = draft.exercises.first.id;
     controller.addSet(exId);
     // 重新读取，拿到新加组的 id
-    final setId =
-        container.read(activeWorkoutProvider)!.exercises.first.sets[0].id;
+    final setId = container
+        .read(activeWorkoutProvider)!
+        .exercises
+        .first
+        .sets[0]
+        .id;
     controller.updateWeight(exId, setId, 80);
     controller.updateReps(exId, setId, 10);
 
@@ -91,9 +95,8 @@ void main() {
     final inProgress = await WorkoutRepository(db).getInProgressSession();
     expect(inProgress, isNotNull);
 
-    final restored = await WorkoutRepository(db).loadDraftForEdit(
-      inProgress!.id,
-    );
+    final restored = await WorkoutRepository(db)
+        .loadDraftForEdit(inProgress!.id);
     expect(restored!.isInProgress, isTrue);
     expect(restored.name, '推胸日');
     expect(restored.exercises.length, 1);

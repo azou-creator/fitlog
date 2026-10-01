@@ -46,13 +46,17 @@ class RecentWorkoutCard extends StatelessWidget {
                   child: Text(
                     detail.session.name,
                     style: const TextStyle(
-                        fontSize: 17, fontWeight: FontWeight.w600),
+                      fontSize: 17,
+                      fontWeight: FontWeight.w600,
+                    ),
                   ),
                 ),
                 Text(
                   '${formatRelativeDay(detail.session.startTime)} · ${formatDurationCN(detail.session.durationSeconds)}',
                   style: TextStyle(
-                      fontSize: 13, color: scheme.onSurfaceVariant),
+                    fontSize: 13,
+                    color: scheme.onSurfaceVariant,
+                  ),
                 ),
               ],
             ),
@@ -64,7 +68,9 @@ class RecentWorkoutCard extends StatelessWidget {
                   child: Text(
                     line,
                     style: TextStyle(
-                        fontSize: 14, color: scheme.onSurfaceVariant),
+                      fontSize: 14,
+                      color: scheme.onSurfaceVariant,
+                    ),
                   ),
                 ),
             ],

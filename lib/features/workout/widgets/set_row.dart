@@ -33,10 +33,12 @@ class SetRow extends StatefulWidget {
 }
 
 class _SetRowState extends State<SetRow> {
-  late final TextEditingController _weightCtrl =
-      TextEditingController(text: weightToText(widget.set.weight));
-  late final TextEditingController _repsCtrl =
-      TextEditingController(text: widget.set.reps?.toString() ?? '');
+  late final TextEditingController _weightCtrl = TextEditingController(
+    text: weightToText(widget.set.weight),
+  );
+  late final TextEditingController _repsCtrl = TextEditingController(
+    text: widget.set.reps?.toString() ?? '',
+  );
   final _repsFocus = FocusNode();
 
   @override
@@ -51,9 +53,15 @@ class _SetRowState extends State<SetRow> {
   Widget build(BuildContext context) {
     final scheme = Theme.of(context).colorScheme;
     final numberStyle = const TextStyle(
-        fontSize: 16, fontWeight: FontWeight.w600, height: 1.1);
+      fontSize: 16,
+      fontWeight: FontWeight.w600,
+      height: 1.1,
+    );
     final unitStyle = TextStyle(
-        fontSize: 12, color: scheme.onSurfaceVariant, height: 1.1);
+      fontSize: 12,
+      color: scheme.onSurfaceVariant,
+      height: 1.1,
+    );
 
     final fieldBorder = OutlineInputBorder(
       borderRadius: BorderRadius.circular(10),
@@ -80,8 +88,9 @@ class _SetRowState extends State<SetRow> {
           Expanded(
             child: TextField(
               controller: _weightCtrl,
-              keyboardType:
-                  const TextInputType.numberWithOptions(decimal: true),
+              keyboardType: const TextInputType.numberWithOptions(
+                decimal: true,
+              ),
               inputFormatters: [DecimalInputFormatter()],
               textInputAction: TextInputAction.next,
               textAlign: TextAlign.center,
@@ -89,12 +98,17 @@ class _SetRowState extends State<SetRow> {
               decoration: InputDecoration(
                 hintText: '重量',
                 hintStyle: TextStyle(
-                    fontSize: 13,
-                    color: scheme.onSurfaceVariant.withValues(alpha: 0.6)),
+                  fontSize: 13,
+                  color: scheme.onSurfaceVariant.withValues(alpha: 0.6),
+                ),
                 suffix: Text('kg', style: unitStyle),
-                contentPadding:
-                    const EdgeInsets.symmetric(horizontal: 8, vertical: 12),
-                fillColor: scheme.surfaceContainerHighest.withValues(alpha: 0.35),
+                contentPadding: const EdgeInsets.symmetric(
+                  horizontal: 8,
+                  vertical: 12,
+                ),
+                fillColor: scheme.surfaceContainerHighest.withValues(
+                  alpha: 0.35,
+                ),
                 enabledBorder: fieldBorder,
                 focusedBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(10),
@@ -114,8 +128,7 @@ class _SetRowState extends State<SetRow> {
           ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8),
-            child:
-                Text('×', style: TextStyle(color: scheme.onSurfaceVariant)),
+            child: Text('×', style: TextStyle(color: scheme.onSurfaceVariant)),
           ),
           Expanded(
             child: TextField(
@@ -133,11 +146,16 @@ class _SetRowState extends State<SetRow> {
               decoration: InputDecoration(
                 hintText: '次数',
                 hintStyle: TextStyle(
-                    fontSize: 13,
-                    color: scheme.onSurfaceVariant.withValues(alpha: 0.6)),
-                contentPadding:
-                    const EdgeInsets.symmetric(horizontal: 8, vertical: 12),
-                fillColor: scheme.surfaceContainerHighest.withValues(alpha: 0.35),
+                  fontSize: 13,
+                  color: scheme.onSurfaceVariant.withValues(alpha: 0.6),
+                ),
+                contentPadding: const EdgeInsets.symmetric(
+                  horizontal: 8,
+                  vertical: 12,
+                ),
+                fillColor: scheme.surfaceContainerHighest.withValues(
+                  alpha: 0.35,
+                ),
                 enabledBorder: fieldBorder,
                 focusedBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(10),

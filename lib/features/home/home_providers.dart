@@ -39,8 +39,9 @@ final weekOverviewProvider = FutureProvider<WeekOverview>((ref) async {
   final sessions = await ref
       .watch(workoutRepositoryProvider)
       .getSessionsBetween(weekStart, now);
-  final runs =
-      await ref.watch(runningRepositoryProvider).getBetween(weekStart, now);
+  final runs = await ref
+      .watch(runningRepositoryProvider)
+      .getBetween(weekStart, now);
 
   return WeekOverview(
     strengthCount: sessions.length,

@@ -22,7 +22,23 @@ class _WeightConverterPageState extends State<WeightConverterPage> {
 
   /// 常用磅数（健身房哑铃/杠铃常见规格）
   static const _commonPounds = [
-    20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80, 85, 90, 95, 100,
+    20,
+    25,
+    30,
+    35,
+    40,
+    45,
+    50,
+    55,
+    60,
+    65,
+    70,
+    75,
+    80,
+    85,
+    90,
+    95,
+    100,
   ];
 
   @override
@@ -34,15 +50,15 @@ class _WeightConverterPageState extends State<WeightConverterPage> {
   double get _inputValue => double.tryParse(_inputCtrl.text) ?? 0;
 
   /// 换算结果（保留原始精度，展示时再格式化）。
-  double get _result => _lbToKg
-      ? poundsToKg(_inputValue)
-      : kgToPounds(_inputValue);
+  double get _result =>
+      _lbToKg ? poundsToKg(_inputValue) : kgToPounds(_inputValue);
 
   /// 交换方向：把当前展示的转换结果作为新的输入，体验更自然。
   void _swap() {
     setState(() {
-      final shownResult =
-          _inputValue > 0 ? formatWeight(_result) : _inputCtrl.text;
+      final shownResult = _inputValue > 0
+          ? formatWeight(_result)
+          : _inputCtrl.text;
       _lbToKg = !_lbToKg;
       _inputCtrl.text = shownResult;
       _inputCtrl.selection = TextSelection.collapsed(
@@ -74,7 +90,9 @@ class _WeightConverterPageState extends State<WeightConverterPage> {
                     child: Text(
                       fromLabel,
                       style: TextStyle(
-                          fontSize: 13, color: scheme.onSurfaceVariant),
+                        fontSize: 13,
+                        color: scheme.onSurfaceVariant,
+                      ),
                     ),
                   ),
                   const SizedBox(height: 4),
@@ -82,13 +100,15 @@ class _WeightConverterPageState extends State<WeightConverterPage> {
                     controller: _inputCtrl,
                     autofocus: true,
                     keyboardType: const TextInputType.numberWithOptions(
-                        decimal: true),
+                      decimal: true,
+                    ),
                     inputFormatters: [DecimalInputFormatter()],
                     maxLength: 8,
                     style: const TextStyle(
-                        fontSize: 36,
-                        fontWeight: FontWeight.w700,
-                        height: 1.1),
+                      fontSize: 36,
+                      fontWeight: FontWeight.w700,
+                      height: 1.1,
+                    ),
                     decoration: const InputDecoration(
                       hintText: '0',
                       counterText: '',
@@ -108,7 +128,9 @@ class _WeightConverterPageState extends State<WeightConverterPage> {
                     child: Text(
                       toLabel,
                       style: TextStyle(
-                          fontSize: 13, color: scheme.onSurfaceVariant),
+                        fontSize: 13,
+                        color: scheme.onSurfaceVariant,
+                      ),
                     ),
                   ),
                   const SizedBox(height: 4),
@@ -117,9 +139,10 @@ class _WeightConverterPageState extends State<WeightConverterPage> {
                     child: Text(
                       formatWeight(_result),
                       style: const TextStyle(
-                          fontSize: 44,
-                          fontWeight: FontWeight.w700,
-                          height: 1.1),
+                        fontSize: 44,
+                        fontWeight: FontWeight.w700,
+                        height: 1.1,
+                      ),
                     ),
                   ),
                   const SizedBox(height: 8),
@@ -129,7 +152,9 @@ class _WeightConverterPageState extends State<WeightConverterPage> {
                     child: Text(
                       _lbToKg ? '1 lb = 0.453592 kg' : '1 kg = 2.204623 lb',
                       style: TextStyle(
-                          fontSize: 12, color: scheme.onSurfaceVariant),
+                        fontSize: 12,
+                        color: scheme.onSurfaceVariant,
+                      ),
                     ),
                   ),
                   // 训练记录参考（仅换算结果为 kg 时有意义）
@@ -140,14 +165,17 @@ class _WeightConverterPageState extends State<WeightConverterPage> {
                         Text(
                           '训练记录参考',
                           style: TextStyle(
-                              fontSize: 13,
-                              color: scheme.onSurfaceVariant),
+                            fontSize: 13,
+                            color: scheme.onSurfaceVariant,
+                          ),
                         ),
                         const Spacer(),
                         Text(
                           '≈ ${formatWeight(roundToTrainingKg(poundsToKg(_inputValue)))} kg',
                           style: const TextStyle(
-                              fontSize: 16, fontWeight: FontWeight.w600),
+                            fontSize: 16,
+                            fontWeight: FontWeight.w600,
+                          ),
                         ),
                       ],
                     ),
@@ -163,8 +191,7 @@ class _WeightConverterPageState extends State<WeightConverterPage> {
               alignment: Alignment.centerLeft,
               child: Text(
                 '常用磅数',
-                style: TextStyle(
-                    fontSize: 16, fontWeight: FontWeight.w600),
+                style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
               ),
             ),
             const SizedBox(height: 4),
@@ -181,10 +208,13 @@ class _WeightConverterPageState extends State<WeightConverterPage> {
                   ActionChip(
                     label: Text('$lb'),
                     labelStyle: const TextStyle(
-                        fontSize: 14, fontWeight: FontWeight.w500),
+                      fontSize: 14,
+                      fontWeight: FontWeight.w500,
+                    ),
                     side: BorderSide.none,
-                    backgroundColor: scheme.surfaceContainerHighest
-                        .withValues(alpha: 0.5),
+                    backgroundColor: scheme.surfaceContainerHighest.withValues(
+                      alpha: 0.5,
+                    ),
                     onPressed: () {
                       setState(() {
                         _inputCtrl.text = '$lb';

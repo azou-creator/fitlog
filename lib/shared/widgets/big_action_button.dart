@@ -50,7 +50,9 @@ class BigActionButton extends StatelessWidget {
                         subtitle!,
                         style: TextStyle(
                           fontSize: 13,
-                          color: scheme.onPrimaryContainer.withValues(alpha: 0.7),
+                          color: scheme.onPrimaryContainer.withValues(
+                            alpha: 0.7,
+                          ),
                         ),
                       ),
                     ],

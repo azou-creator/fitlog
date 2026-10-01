@@ -38,10 +38,8 @@ class RunningDetailPage extends ConsumerWidget {
       ),
       body: recordAsync.when(
         loading: () => const Center(child: CircularProgressIndicator()),
-        error: (e, _) => const EmptyState(
-          icon: Icons.error_outline_rounded,
-          title: '加载失败',
-        ),
+        error: (e, _) =>
+            const EmptyState(icon: Icons.error_outline_rounded, title: '加载失败'),
         data: (record) {
           if (record == null) {
             return const EmptyState(
@@ -50,8 +48,7 @@ class RunningDetailPage extends ConsumerWidget {
               subtitle: '可能已被删除',
             );
           }
-          final pace =
-              formatPace(record.durationSeconds, record.distanceKm);
+          final pace = formatPace(record.durationSeconds, record.distanceKm);
           return ListView(
             padding: const EdgeInsets.all(16),
             children: [
@@ -66,24 +63,33 @@ class RunningDetailPage extends ConsumerWidget {
                           const Text(
                             '跑步',
                             style: TextStyle(
-                                fontSize: 22, fontWeight: FontWeight.w700),
+                              fontSize: 22,
+                              fontWeight: FontWeight.w700,
+                            ),
                           ),
                           const Spacer(),
                           Text(
                             formatFullDate(record.date),
                             style: TextStyle(
-                                fontSize: 13,
-                                color: scheme.onSurfaceVariant),
+                              fontSize: 13,
+                              color: scheme.onSurfaceVariant,
+                            ),
                           ),
                         ],
                       ),
                       const SizedBox(height: 20),
                       Row(
                         children: [
-                          _stat(context, '距离',
-                              '${formatWeight(record.distanceKm)} km'),
-                          _stat(context, '用时',
-                              formatClock(record.durationSeconds)),
+                          _stat(
+                            context,
+                            '距离',
+                            '${formatWeight(record.distanceKm)} km',
+                          ),
+                          _stat(
+                            context,
+                            '用时',
+                            formatClock(record.durationSeconds),
+                          ),
                         ],
                       ),
                       const Divider(height: 28),
@@ -114,8 +120,9 @@ class RunningDetailPage extends ConsumerWidget {
                         Text(
                           '备注',
                           style: TextStyle(
-                              fontSize: 13,
-                              color: scheme.onSurfaceVariant),
+                            fontSize: 13,
+                            color: scheme.onSurfaceVariant,
+                          ),
                         ),
                         const SizedBox(height: 6),
                         Text(

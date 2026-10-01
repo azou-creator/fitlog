@@ -50,12 +50,15 @@ class RecordPage extends ConsumerWidget {
                       const Text(
                         '最近训练',
                         style: TextStyle(
-                            fontSize: 16, fontWeight: FontWeight.w600),
+                          fontSize: 16,
+                          fontWeight: FontWeight.w600,
+                        ),
                       ),
                       const SizedBox(height: 8),
                       RecentWorkoutCard(
                         detail: detail,
-                        onRepeat: () => _repeat(context, ref, detail.session.id),
+                        onRepeat: () =>
+                            _repeat(context, ref, detail.session.id),
                       ),
                       const SizedBox(height: 24),
                     ],
@@ -71,14 +74,15 @@ class RecordPage extends ConsumerWidget {
                 children: [
                   const Text(
                     '最近使用的动作',
-                    style:
-                        TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
                   ),
                   const SizedBox(height: 4),
                   Text(
                     '点击直接开始，动作已加入训练',
-                    style:
-                        TextStyle(fontSize: 12, color: scheme.onSurfaceVariant),
+                    style: TextStyle(
+                      fontSize: 12,
+                      color: scheme.onSurfaceVariant,
+                    ),
                   ),
                   const SizedBox(height: 12),
                   Wrap(
@@ -97,7 +101,11 @@ class RecordPage extends ConsumerWidget {
     );
   }
 
-  Future<void> _repeat(BuildContext context, WidgetRef ref, int sessionId) async {
+  Future<void> _repeat(
+    BuildContext context,
+    WidgetRef ref,
+    int sessionId,
+  ) async {
     await ref.read(activeWorkoutProvider.notifier).startFromSession(sessionId);
     if (context.mounted) context.push('/workout/new');
   }

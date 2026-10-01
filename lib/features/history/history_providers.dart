@@ -75,17 +75,19 @@ final historyProvider = StreamProvider<List<HistoryItem>>((ref) {
 });
 
 Future<List<SessionWithCount>> _sessionsWithCounts(AppDatabase db) async {
-  final sessions = await (db.select(db.workoutSessions)
-        ..orderBy([(s) => OrderingTerm.desc(s.startTime)]))
-      .get();
+  final sessions = await (db.select(
+    db.workoutSessions,
+  )..orderBy([(s) => OrderingTerm.desc(s.startTime)])).get();
   if (sessions.isEmpty) return [];
 
   final countExp = countAll();
   final query = db.selectOnly(db.workoutExercises)
     ..addColumns([db.workoutExercises.workoutSessionId, countExp])
     ..join([
-      leftOuterJoin(db.workoutSets,
-          db.workoutSets.workoutExerciseId.equalsExp(db.workoutExercises.id)),
+      leftOuterJoin(
+        db.workoutSets,
+        db.workoutSets.workoutExerciseId.equalsExp(db.workoutExercises.id),
+      ),
     ])
     ..groupBy([db.workoutExercises.workoutSessionId]);
 

@@ -28,36 +28,43 @@ final routerProvider = Provider<GoRouter>((ref) {
         builder: (context, state, navigationShell) =>
             _MainShell(navigationShell: navigationShell),
         branches: [
-          StatefulShellBranch(routes: [
-            GoRoute(path: '/', builder: (_, _) => const HomePage()),
-          ]),
-          StatefulShellBranch(routes: [
-            GoRoute(path: '/record', builder: (_, _) => const RecordPage()),
-          ]),
-          StatefulShellBranch(routes: [
-            GoRoute(path: '/history', builder: (_, _) => const HistoryPage()),
-          ]),
-          StatefulShellBranch(routes: [
-            GoRoute(path: '/me', builder: (_, _) => const MePage()),
-          ]),
+          StatefulShellBranch(
+            routes: [GoRoute(path: '/', builder: (_, _) => const HomePage())],
+          ),
+          StatefulShellBranch(
+            routes: [
+              GoRoute(path: '/record', builder: (_, _) => const RecordPage()),
+            ],
+          ),
+          StatefulShellBranch(
+            routes: [
+              GoRoute(path: '/history', builder: (_, _) => const HistoryPage()),
+            ],
+          ),
+          StatefulShellBranch(
+            routes: [GoRoute(path: '/me', builder: (_, _) => const MePage())],
+          ),
         ],
       ),
 
       // 力量训练
       GoRoute(
         path: '/workout/new',
-        builder: (_, state) =>
-            WorkoutEditorPage(seed: state.extra is Exercise ? state.extra as Exercise : null),
+        builder: (_, state) => WorkoutEditorPage(
+          seed: state.extra is Exercise ? state.extra as Exercise : null,
+        ),
       ),
       GoRoute(
         path: '/workout/summary',
-        builder: (_, state) =>
-            WorkoutSummaryPage(sessionId: _parseId(state.uri.queryParameters['id']) ?? -1),
+        builder: (_, state) => WorkoutSummaryPage(
+          sessionId: _parseId(state.uri.queryParameters['id']) ?? -1,
+        ),
       ),
       GoRoute(
         path: '/workout/:id',
-        builder: (_, state) =>
-            WorkoutDetailPage(sessionId: _parseId(state.pathParameters['id']) ?? -1),
+        builder: (_, state) => WorkoutDetailPage(
+          sessionId: _parseId(state.pathParameters['id']) ?? -1,
+        ),
       ),
       GoRoute(
         path: '/workout/:id/edit',
@@ -67,11 +74,15 @@ final routerProvider = Provider<GoRouter>((ref) {
       ),
 
       // 跑步
-      GoRoute(path: '/running/new', builder: (_, _) => const RunningEditorPage()),
+      GoRoute(
+        path: '/running/new',
+        builder: (_, _) => const RunningEditorPage(),
+      ),
       GoRoute(
         path: '/running/:id',
-        builder: (_, state) =>
-            RunningDetailPage(recordId: _parseId(state.pathParameters['id']) ?? -1),
+        builder: (_, state) => RunningDetailPage(
+          recordId: _parseId(state.pathParameters['id']) ?? -1,
+        ),
       ),
       GoRoute(
         path: '/running/:id/edit',
@@ -81,7 +92,10 @@ final routerProvider = Provider<GoRouter>((ref) {
       ),
 
       // 其他
-      GoRoute(path: '/exercises', builder: (_, _) => const ExercisePickerPage()),
+      GoRoute(
+        path: '/exercises',
+        builder: (_, _) => const ExercisePickerPage(),
+      ),
       GoRoute(path: '/stats', builder: (_, _) => const StatsPage()),
       GoRoute(path: '/data', builder: (_, _) => const DataManagementPage()),
       GoRoute(

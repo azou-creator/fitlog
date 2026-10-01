@@ -38,8 +38,7 @@ class ExerciseCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final scheme = Theme.of(context).colorScheme;
-    final weakStyle =
-        TextStyle(fontSize: 12, color: scheme.onSurfaceVariant);
+    final weakStyle = TextStyle(fontSize: 12, color: scheme.onSurfaceVariant);
 
     return Card(
       child: Padding(
@@ -58,34 +57,36 @@ class ExerciseCard extends StatelessWidget {
                       Text(
                         exercise.name,
                         style: const TextStyle(
-                            fontSize: 16, fontWeight: FontWeight.w600),
+                          fontSize: 16,
+                          fontWeight: FontWeight.w600,
+                        ),
                       ),
-                      Text(
-                        exercise.muscleGroup,
-                        style: weakStyle,
-                      ),
+                      Text(exercise.muscleGroup, style: weakStyle),
                     ],
                   ),
                 ),
                 PopupMenuButton<String>(
                   tooltip: '动作操作',
-                  icon: Icon(Icons.more_horiz_rounded,
-                      size: 20, color: scheme.onSurfaceVariant),
+                  icon: Icon(
+                    Icons.more_horiz_rounded,
+                    size: 20,
+                    color: scheme.onSurfaceVariant,
+                  ),
                   shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(14)),
+                    borderRadius: BorderRadius.circular(14),
+                  ),
                   onSelected: (value) {
                     if (value == 'note') onEditNote();
                     if (value == 'delete') onRemoveExercise();
                   },
                   itemBuilder: (_) => [
-                    const PopupMenuItem(
-                      value: 'note',
-                      child: Text('添加备注'),
-                    ),
+                    const PopupMenuItem(value: 'note', child: Text('添加备注')),
                     PopupMenuItem(
                       value: 'delete',
-                      child: Text('删除动作',
-                          style: TextStyle(color: scheme.error)),
+                      child: Text(
+                        '删除动作',
+                        style: TextStyle(color: scheme.error),
+                      ),
                     ),
                   ],
                 ),
@@ -103,10 +104,7 @@ class ExerciseCard extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.only(left: 2),
                 child: Text(
-                  '上次  ${[
-                    for (final (w, r) in lastPerformance)
-                      '${formatWeight(w)}×$r',
-                  ].join('  ·  ')}',
+                  '上次  ${[for (final (w, r) in lastPerformance) '${formatWeight(w)}×$r'].join('  ·  ')}',
                   style: weakStyle,
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
@@ -117,10 +115,7 @@ class ExerciseCard extends StatelessWidget {
             if (exercise.sets.isEmpty)
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 6),
-                child: Text(
-                  '点击下方「添加一组」开始记录',
-                  style: weakStyle,
-                ),
+                child: Text('点击下方「添加一组」开始记录', style: weakStyle),
               )
             else
               Column(
@@ -136,8 +131,11 @@ class ExerciseCard extends StatelessWidget {
                           color: scheme.errorContainer,
                           borderRadius: BorderRadius.circular(12),
                         ),
-                        child: Icon(Icons.delete_outline_rounded,
-                            size: 20, color: scheme.onErrorContainer),
+                        child: Icon(
+                          Icons.delete_outline_rounded,
+                          size: 20,
+                          color: scheme.onErrorContainer,
+                        ),
                       ),
                       onDismissed: (_) => onRemoveSet(exercise.sets[i].id),
                       child: SetRow(

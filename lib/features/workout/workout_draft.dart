@@ -31,8 +31,8 @@ class DraftExercise {
     required this.muscleGroup,
     this.note = '',
     List<DraftSet>? sets,
-  })  : id = id ?? _genId(),
-        sets = sets ?? [];
+  }) : id = id ?? _genId(),
+       sets = sets ?? [];
 
   final int id;
   final int exerciseId;
@@ -41,15 +41,14 @@ class DraftExercise {
   String note;
   List<DraftSet> sets;
 
-  DraftExercise copyWith({String? note, List<DraftSet>? sets}) =>
-      DraftExercise(
-        id: id,
-        exerciseId: exerciseId,
-        name: name,
-        muscleGroup: muscleGroup,
-        note: note ?? this.note,
-        sets: sets ?? this.sets,
-      );
+  DraftExercise copyWith({String? note, List<DraftSet>? sets}) => DraftExercise(
+    id: id,
+    exerciseId: exerciseId,
+    name: name,
+    muscleGroup: muscleGroup,
+    note: note ?? this.note,
+    sets: sets ?? this.sets,
+  );
 }
 
 /// 一次力量训练草稿。
@@ -61,8 +60,8 @@ class WorkoutDraft {
     this.note = '',
     DateTime? startTime,
     List<DraftExercise>? exercises,
-  })  : startTime = startTime ?? DateTime.now(),
-        exercises = exercises ?? [];
+  }) : startTime = startTime ?? DateTime.now(),
+       exercises = exercises ?? [];
 
   /// 已落库的进行中/被编辑 session 的 id；null 表示尚未落库（旧编辑路径）。
   final int? sessionDbId;
@@ -78,15 +77,14 @@ class WorkoutDraft {
     String? name,
     String? note,
     List<DraftExercise>? exercises,
-  }) =>
-      WorkoutDraft(
-        sessionDbId: sessionDbId,
-        isInProgress: isInProgress,
-        name: name ?? this.name,
-        note: note ?? this.note,
-        startTime: startTime,
-        exercises: exercises ?? this.exercises,
-      );
+  }) => WorkoutDraft(
+    sessionDbId: sessionDbId,
+    isInProgress: isInProgress,
+    name: name ?? this.name,
+    note: note ?? this.note,
+    startTime: startTime,
+    exercises: exercises ?? this.exercises,
+  );
 
   /// 是否有实质内容（用于返回前确认放弃）。
   bool get hasContent =>
@@ -103,8 +101,8 @@ class WorkoutDraft {
 
   /// 总训练容量（kg）。
   double get totalVolume => calcTotalVolume([
-        for (final e in exercises)
-          for (final s in e.sets)
-            if (s.isValid) (weight: s.weight, reps: s.reps!),
-      ]);
+    for (final e in exercises)
+      for (final s in e.sets)
+        if (s.isValid) (weight: s.weight, reps: s.reps!),
+  ]);
 }

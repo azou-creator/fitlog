@@ -19,7 +19,8 @@ class StatsPage extends ConsumerWidget {
 
     // 是否有任意训练数据（决定整体空状态）
     final weekData = week.value;
-    final hasAnyActivity = weekData != null &&
+    final hasAnyActivity =
+        weekData != null &&
         (weekData.strengthCount > 0 || weekData.runCount > 0);
 
     return Scaffold(
@@ -29,14 +30,16 @@ class StatsPage extends ConsumerWidget {
         children: [
           if (!hasAnyActivity) ...[
             const SizedBox(height: 24),
-            Icon(Icons.insights_rounded,
-                size: 48, color: scheme.outlineVariant),
+            Icon(
+              Icons.insights_rounded,
+              size: 48,
+              color: scheme.outlineVariant,
+            ),
             const SizedBox(height: 12),
             Text(
               '再记录几次训练，这里会慢慢生成趋势。',
               textAlign: TextAlign.center,
-              style: TextStyle(
-                  fontSize: 14, color: scheme.onSurfaceVariant),
+              style: TextStyle(fontSize: 14, color: scheme.onSurfaceVariant),
             ),
             const SizedBox(height: 32),
             const Text(
@@ -59,8 +62,7 @@ class StatsPage extends ConsumerWidget {
                       _stat(context, '${w.strengthCount}', '力量 · 次'),
                       _stat(context, '${w.setCount}', '力量 · 组'),
                       _stat(context, '${w.runCount}', '跑步 · 次'),
-                      _stat(
-                          context, formatWeight(w.runDistanceKm), '跑步 · km'),
+                      _stat(context, formatWeight(w.runDistanceKm), '跑步 · km'),
                     ],
                   ),
                 ),
@@ -79,8 +81,7 @@ class StatsPage extends ConsumerWidget {
                     children: [
                       _stat(context, '${m.strengthCount}', '力量 · 次'),
                       _stat(context, '${m.runCount}', '跑步 · 次'),
-                      _stat(
-                          context, formatWeight(m.runDistanceKm), '跑步 · km'),
+                      _stat(context, formatWeight(m.runDistanceKm), '跑步 · km'),
                     ],
                   ),
                 ),
@@ -181,17 +182,23 @@ class _ExerciseTrendSectionState extends ConsumerState<_ExerciseTrendSection> {
           return Card(
             child: Padding(
               padding: const EdgeInsets.all(16),
-              child: Text('暂无动作', style: TextStyle(
-                  fontSize: 13, color: scheme.onSurfaceVariant)),
+              child: Text(
+                '暂无动作',
+                style: TextStyle(fontSize: 13, color: scheme.onSurfaceVariant),
+              ),
             ),
           );
         }
-        final selectedId = _selectedExerciseId ??
+        final selectedId =
+            _selectedExerciseId ??
             (exercises.any((e) => e.name == '杠铃卧推')
                 ? exercises.firstWhere((e) => e.name == '杠铃卧推').id
                 : exercises.first.id);
         final selectedName = exercises
-            .firstWhere((e) => e.id == selectedId, orElse: () => exercises.first)
+            .firstWhere(
+              (e) => e.id == selectedId,
+              orElse: () => exercises.first,
+            )
             .name;
         final trend = ref.watch(exerciseTrendProvider(selectedId));
 

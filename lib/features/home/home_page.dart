@@ -41,7 +41,11 @@ class HomePage extends ConsumerWidget {
             error: (_, _) => const SizedBox.shrink(),
             data: (session) => session == null
                 ? const SizedBox.shrink()
-                : _InProgressBanner(sessionId: session.id, name: session.name, startTime: session.startTime),
+                : _InProgressBanner(
+                    sessionId: session.id,
+                    name: session.name,
+                    startTime: session.startTime,
+                  ),
           ),
           BigActionButton(
             icon: Icons.fitness_center_rounded,
@@ -69,12 +73,15 @@ class HomePage extends ConsumerWidget {
                       const Text(
                         '最近训练',
                         style: TextStyle(
-                            fontSize: 16, fontWeight: FontWeight.w600),
+                          fontSize: 16,
+                          fontWeight: FontWeight.w600,
+                        ),
                       ),
                       const SizedBox(height: 8),
                       RecentWorkoutCard(
                         detail: detail,
-                        onRepeat: () => _repeat(context, ref, detail.session.id),
+                        onRepeat: () =>
+                            _repeat(context, ref, detail.session.id),
                       ),
                     ],
                   ),
@@ -95,8 +102,11 @@ class HomePage extends ConsumerWidget {
                   children: [
                     _weekStat(context, '${week.strengthCount}', '力量训练 · 次'),
                     _weekStat(context, '${week.runCount}', '跑步 · 次'),
-                    _weekStat(context, formatWeight(week.runDistanceKm),
-                        '跑步距离 · km'),
+                    _weekStat(
+                      context,
+                      formatWeight(week.runDistanceKm),
+                      '跑步距离 · km',
+                    ),
                   ],
                 ),
               ),
@@ -107,7 +117,11 @@ class HomePage extends ConsumerWidget {
     );
   }
 
-  Future<void> _repeat(BuildContext context, WidgetRef ref, int sessionId) async {
+  Future<void> _repeat(
+    BuildContext context,
+    WidgetRef ref,
+    int sessionId,
+  ) async {
     await ref.read(activeWorkoutProvider.notifier).startFromSession(sessionId);
     if (context.mounted) context.push('/workout/new');
   }
@@ -153,22 +167,29 @@ class _InProgressBanner extends StatelessWidget {
       child: Card(
         color: scheme.primaryContainer,
         child: ListTile(
-          contentPadding:
-              const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
-          leading: Icon(Icons.play_circle_fill_rounded,
-              size: 32, color: scheme.onPrimaryContainer),
+          contentPadding: const EdgeInsets.symmetric(
+            horizontal: 16,
+            vertical: 6,
+          ),
+          leading: Icon(
+            Icons.play_circle_fill_rounded,
+            size: 32,
+            color: scheme.onPrimaryContainer,
+          ),
           title: Text(
             name.trim().isEmpty ? '未命名训练' : name.trim(),
             style: TextStyle(
-                fontSize: 15,
-                fontWeight: FontWeight.w600,
-                color: scheme.onPrimaryContainer),
+              fontSize: 15,
+              fontWeight: FontWeight.w600,
+              color: scheme.onPrimaryContainer,
+            ),
           ),
           subtitle: Text(
             '正在进行 · 已训练 $elapsed 分钟',
             style: TextStyle(
-                fontSize: 12,
-                color: scheme.onPrimaryContainer.withValues(alpha: 0.7)),
+              fontSize: 12,
+              color: scheme.onPrimaryContainer.withValues(alpha: 0.7),
+            ),
           ),
           trailing: FilledButton(
             style: FilledButton.styleFrom(

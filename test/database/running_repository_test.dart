@@ -60,13 +60,25 @@ void main() {
 
   test('getBetween：按日期区间查询', () async {
     await repo.save(
-        date: DateTime(2026, 9, 1), distanceKm: 3, durationSeconds: 1000);
+      date: DateTime(2026, 9, 1),
+      distanceKm: 3,
+      durationSeconds: 1000,
+    );
     await repo.save(
-        date: DateTime(2026, 9, 15), distanceKm: 5, durationSeconds: 1700);
+      date: DateTime(2026, 9, 15),
+      distanceKm: 5,
+      durationSeconds: 1700,
+    );
     await repo.save(
-        date: DateTime(2026, 10, 1), distanceKm: 8, durationSeconds: 2800);
+      date: DateTime(2026, 10, 1),
+      distanceKm: 8,
+      durationSeconds: 2800,
+    );
 
-    final sep = await repo.getBetween(DateTime(2026, 9, 1), DateTime(2026, 9, 30));
+    final sep = await repo.getBetween(
+      DateTime(2026, 9, 1),
+      DateTime(2026, 9, 30),
+    );
     expect(sep.length, 2);
     expect(sep.map((r) => r.distanceKm), [3, 5]); // 按日期升序
   });

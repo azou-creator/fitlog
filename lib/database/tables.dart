@@ -38,8 +38,11 @@ class WorkoutExercises extends Table {
 @TableIndex(name: 'idx_sets_exercise', columns: {#workoutExerciseId})
 class WorkoutSets extends Table {
   IntColumn get id => integer().autoIncrement()();
-  IntColumn get workoutExerciseId =>
-      integer().references(WorkoutExercises, #id, onDelete: KeyAction.cascade)();
+  IntColumn get workoutExerciseId => integer().references(
+    WorkoutExercises,
+    #id,
+    onDelete: KeyAction.cascade,
+  )();
   IntColumn get setOrder => integer()();
   RealColumn get weight => real()();
   IntColumn get reps => integer()();

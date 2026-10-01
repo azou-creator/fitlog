@@ -55,7 +55,11 @@ String formatWeight(double w) {
     buf.write(intPart[i]);
     if (posFromEnd > 1 && posFromEnd % 3 == 1) buf.write(',');
   }
-  if (parts.length > 1) buf..write('.')..write(parts[1]);
+  if (parts.length > 1) {
+    buf
+      ..write('.')
+      ..write(parts[1]);
+  }
   return buf.toString();
 }
 

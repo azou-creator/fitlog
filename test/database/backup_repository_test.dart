@@ -76,8 +76,7 @@ void main() {
 
     // 数据库层面对比
     final srcSessions = await sourceDb.select(sourceDb.workoutSessions).get();
-    final dstSessions =
-        await targetDb.select(targetDb.workoutSessions).get();
+    final dstSessions = await targetDb.select(targetDb.workoutSessions).get();
     expect(dstSessions.length, srcSessions.length);
     expect(dstSessions.first.name, '胸 + 肩');
     expect(dstSessions.first.status, SessionStatus.completed);
@@ -112,9 +111,6 @@ void main() {
   });
 
   test('损坏的 JSON 抛出 FormatException', () {
-    expect(
-      () => targetBackup.decode('not a json {'),
-      throwsFormatException,
-    );
+    expect(() => targetBackup.decode('not a json {'), throwsFormatException);
   });
 }

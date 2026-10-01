@@ -58,10 +58,9 @@ class _WorkoutEditorPageState extends ConsumerState<WorkoutEditorPage> {
     try {
       _lastPerformance = await ref
           .read(workoutRepositoryProvider)
-          .lastPerformanceMap(
-            draft.sessionDbId,
-            [for (final e in draft.exercises) e.exerciseId],
-          );
+          .lastPerformanceMap(draft.sessionDbId, [
+            for (final e in draft.exercises) e.exerciseId,
+          ]);
     } catch (e) {
       _lastPerformance = {};
     }
@@ -86,9 +85,10 @@ class _WorkoutEditorPageState extends ConsumerState<WorkoutEditorPage> {
             if (live)
               TextButton(
                 onPressed: _saving ? null : _finish,
-                child: const Text('完成',
-                    style:
-                        TextStyle(fontSize: 16, fontWeight: FontWeight.w600)),
+                child: const Text(
+                  '完成',
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+                ),
               ),
           ],
         ),
@@ -126,8 +126,7 @@ class _WorkoutEditorPageState extends ConsumerState<WorkoutEditorPage> {
             ),
           ),
           const SizedBox(width: 6),
-          Icon(Icons.edit_rounded,
-              size: 15, color: scheme.onSurfaceVariant),
+          Icon(Icons.edit_rounded, size: 15, color: scheme.onSurfaceVariant),
         ],
       ),
     );
@@ -147,11 +146,8 @@ class _WorkoutEditorPageState extends ConsumerState<WorkoutEditorPage> {
               _LiveTimer(startTime: draft.startTime)
             else ...[
               Text(
-                '${formatFullDate(draft.startTime)} · ${formatDurationCN(
-                  DateTime.now().difference(draft.startTime).inSeconds,
-                )}',
-                style: TextStyle(
-                    fontSize: 13, color: scheme.onSurfaceVariant),
+                '${formatFullDate(draft.startTime)} · ${formatDurationCN(DateTime.now().difference(draft.startTime).inSeconds)}',
+                style: TextStyle(fontSize: 13, color: scheme.onSurfaceVariant),
               ),
             ],
           ],
@@ -159,13 +155,14 @@ class _WorkoutEditorPageState extends ConsumerState<WorkoutEditorPage> {
         const SizedBox(height: 8),
         Row(
           children: [
-            const Text('训练动作',
-                style: TextStyle(fontSize: 15, fontWeight: FontWeight.w600)),
+            const Text(
+              '训练动作',
+              style: TextStyle(fontSize: 15, fontWeight: FontWeight.w600),
+            ),
             const Spacer(),
             Text(
               '${draft.exercises.length} 个动作 · ${draft.validSetCount} 组',
-              style: TextStyle(
-                  fontSize: 12, color: scheme.onSurfaceVariant),
+              style: TextStyle(fontSize: 12, color: scheme.onSurfaceVariant),
             ),
           ],
         ),
@@ -176,8 +173,7 @@ class _WorkoutEditorPageState extends ConsumerState<WorkoutEditorPage> {
             child: Text(
               '从动作库添加今天要练的动作',
               textAlign: TextAlign.center,
-              style: TextStyle(
-                  fontSize: 14, color: scheme.onSurfaceVariant),
+              style: TextStyle(fontSize: 14, color: scheme.onSurfaceVariant),
             ),
           )
         else
@@ -252,9 +248,10 @@ class _WorkoutEditorPageState extends ConsumerState<WorkoutEditorPage> {
                     height: 22,
                     child: CircularProgressIndicator(strokeWidth: 2),
                   )
-                : const Text('保存修改',
-                    style:
-                        TextStyle(fontSize: 16, fontWeight: FontWeight.w600)),
+                : const Text(
+                    '保存修改',
+                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+                  ),
           ),
         ),
       ),
@@ -288,8 +285,7 @@ class _WorkoutEditorPageState extends ConsumerState<WorkoutEditorPage> {
           ),
           FilledButton(
             style: FilledButton.styleFrom(
-              backgroundColor:
-                  Theme.of(ctx).colorScheme.error,
+              backgroundColor: Theme.of(ctx).colorScheme.error,
               foregroundColor: Theme.of(ctx).colorScheme.onError,
             ),
             onPressed: () => Navigator.of(ctx).pop(true),

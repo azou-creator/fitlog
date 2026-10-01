@@ -62,9 +62,7 @@ void main() {
 
   group('页面交互', () {
     testWidgets('输入 70 实时显示 31.75 kg 与训练参考 ≈ 31.8 kg', (tester) async {
-      await tester.pumpWidget(
-        const MaterialApp(home: WeightConverterPage()),
-      );
+      await tester.pumpWidget(const MaterialApp(home: WeightConverterPage()));
       await tester.pumpAndSettle();
 
       await tester.enterText(find.byType(TextField), '70');
@@ -77,9 +75,7 @@ void main() {
     });
 
     testWidgets('点击交换后变为 kg → lb 方向', (tester) async {
-      await tester.pumpWidget(
-        const MaterialApp(home: WeightConverterPage()),
-      );
+      await tester.pumpWidget(const MaterialApp(home: WeightConverterPage()));
       await tester.pumpAndSettle();
 
       await tester.enterText(find.byType(TextField), '70');

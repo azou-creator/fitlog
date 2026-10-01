@@ -41,17 +41,19 @@ class HistoryPage extends ConsumerWidget {
             final month = formatMonthTitle(item.date);
             if (month != currentMonth) {
               currentMonth = month;
-              rows.add(Padding(
-                padding: const EdgeInsets.fromLTRB(4, 20, 4, 8),
-                child: Text(
-                  month,
-                  style: TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.w600,
-                    color: Theme.of(context).colorScheme.onSurfaceVariant,
+              rows.add(
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(4, 20, 4, 8),
+                  child: Text(
+                    month,
+                    style: TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w600,
+                      color: Theme.of(context).colorScheme.onSurfaceVariant,
+                    ),
                   ),
                 ),
-              ));
+              );
             }
             rows.add(_HistoryTile(item: item));
           }
@@ -86,11 +88,15 @@ class _HistoryTile extends StatelessWidget {
       padding: const EdgeInsets.only(bottom: 10),
       child: Card(
         child: ListTile(
-          onTap: () => context.push(isWorkout
-              ? '/workout/${item.session!.id}'
-              : '/running/${item.run!.id}'),
-          contentPadding:
-              const EdgeInsets.symmetric(horizontal: 14, vertical: 6),
+          onTap: () => context.push(
+            isWorkout
+                ? '/workout/${item.session!.id}'
+                : '/running/${item.run!.id}',
+          ),
+          contentPadding: const EdgeInsets.symmetric(
+            horizontal: 14,
+            vertical: 6,
+          ),
           leading: Container(
             width: 42,
             height: 42,

@@ -10,7 +10,10 @@ abstract final class AppTheme {
   static ThemeData get dark => _build(Brightness.dark);
 
   static ThemeData _build(Brightness brightness) {
-    final scheme = ColorScheme.fromSeed(seedColor: seed, brightness: brightness);
+    final scheme = ColorScheme.fromSeed(
+      seedColor: seed,
+      brightness: brightness,
+    );
     final isLight = brightness == Brightness.light;
     final cardColor = isLight ? Colors.white : scheme.surfaceContainerLow;
 
@@ -34,7 +37,8 @@ abstract final class AppTheme {
         elevation: 0,
         color: cardColor,
         shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(AppRadius.card)),
+          borderRadius: BorderRadius.circular(AppRadius.card),
+        ),
         margin: EdgeInsets.zero,
         clipBehavior: Clip.antiAlias,
       ),
@@ -44,9 +48,13 @@ abstract final class AppTheme {
       ),
       inputDecorationTheme: InputDecorationTheme(
         filled: true,
-        fillColor: isLight ? const Color(0xFFF2F2F7) : scheme.surfaceContainerHigh,
+        fillColor: isLight
+            ? const Color(0xFFF2F2F7)
+            : scheme.surfaceContainerHigh,
         contentPadding: const EdgeInsets.symmetric(
-            horizontal: 14, vertical: 12),
+          horizontal: 14,
+          vertical: 12,
+        ),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(AppRadius.input),
           borderSide: BorderSide.none,

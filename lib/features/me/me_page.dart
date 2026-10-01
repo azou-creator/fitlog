@@ -58,8 +58,7 @@ class MePage extends ConsumerWidget {
                   padding: EdgeInsets.fromLTRB(16, 12, 16, 0),
                   child: Text(
                     '工具',
-                    style:
-                        TextStyle(fontSize: 13, fontWeight: FontWeight.w600),
+                    style: TextStyle(fontSize: 13, fontWeight: FontWeight.w600),
                   ),
                 ),
                 ListTile(
@@ -85,7 +84,9 @@ class MePage extends ConsumerWidget {
                       Text(
                         _modeLabel(themeMode),
                         style: TextStyle(
-                            fontSize: 15, color: scheme.onSurfaceVariant),
+                          fontSize: 15,
+                          color: scheme.onSurfaceVariant,
+                        ),
                       ),
                       const Icon(Icons.chevron_right_rounded),
                     ],
@@ -96,17 +97,25 @@ class MePage extends ConsumerWidget {
                 ListTile(
                   leading: const Icon(Icons.fitness_center_rounded),
                   title: const Text('重量单位'),
-                  trailing: Text('kg',
-                      style: TextStyle(
-                          fontSize: 15, color: scheme.onSurfaceVariant)),
+                  trailing: Text(
+                    'kg',
+                    style: TextStyle(
+                      fontSize: 15,
+                      color: scheme.onSurfaceVariant,
+                    ),
+                  ),
                 ),
                 const Divider(indent: 16),
                 ListTile(
                   leading: const Icon(Icons.straighten_rounded),
                   title: const Text('距离单位'),
-                  trailing: Text('km',
-                      style: TextStyle(
-                          fontSize: 15, color: scheme.onSurfaceVariant)),
+                  trailing: Text(
+                    'km',
+                    style: TextStyle(
+                      fontSize: 15,
+                      color: scheme.onSurfaceVariant,
+                    ),
+                  ),
                 ),
               ],
             ),
@@ -126,9 +135,7 @@ class MePage extends ConsumerWidget {
                   size: 40,
                   color: scheme.primary,
                 ),
-                children: const [
-                  Text('个人健身 / 跑步训练日记。\n所有数据保存在本机，无需联网。'),
-                ],
+                children: const [Text('个人健身 / 跑步训练日记。\n所有数据保存在本机，无需联网。')],
               ),
             ),
           ),
@@ -154,16 +161,19 @@ class MePage extends ConsumerWidget {
           children: [
             const Padding(
               padding: EdgeInsets.only(bottom: 4),
-              child: Text('外观',
-                  style:
-                      TextStyle(fontSize: 16, fontWeight: FontWeight.w600)),
+              child: Text(
+                '外观',
+                style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+              ),
             ),
             for (final mode in ThemeMode.values)
               ListTile(
                 title: Text(_modeLabelStatic(mode)),
                 trailing: mode == current
-                    ? Icon(Icons.check_rounded,
-                        color: Theme.of(ctx).colorScheme.primary)
+                    ? Icon(
+                        Icons.check_rounded,
+                        color: Theme.of(ctx).colorScheme.primary,
+                      )
                     : null,
                 onTap: () {
                   ref.read(themeModeProvider.notifier).set(mode);

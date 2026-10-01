@@ -37,10 +37,8 @@ class WorkoutDetailPage extends ConsumerWidget {
       ),
       body: detailAsync.when(
         loading: () => const Center(child: CircularProgressIndicator()),
-        error: (e, _) => const EmptyState(
-          icon: Icons.error_outline_rounded,
-          title: '加载失败',
-        ),
+        error: (e, _) =>
+            const EmptyState(icon: Icons.error_outline_rounded, title: '加载失败'),
         data: (detail) {
           if (detail == null) {
             return const EmptyState(
@@ -62,20 +60,26 @@ class WorkoutDetailPage extends ConsumerWidget {
                       Text(
                         s.name,
                         style: const TextStyle(
-                            fontSize: 22, fontWeight: FontWeight.w700),
+                          fontSize: 22,
+                          fontWeight: FontWeight.w700,
+                        ),
                       ),
                       const SizedBox(height: 4),
                       Text(
                         '${formatFullDate(s.startTime)} · ${formatDurationCN(s.durationSeconds)}',
                         style: TextStyle(
-                            fontSize: 13, color: scheme.onSurfaceVariant),
+                          fontSize: 13,
+                          color: scheme.onSurfaceVariant,
+                        ),
                       ),
                       if (s.note != null && s.note!.isNotEmpty) ...[
                         const SizedBox(height: 10),
                         Text(
                           s.note!,
                           style: TextStyle(
-                              fontSize: 13, color: scheme.onSurfaceVariant),
+                            fontSize: 13,
+                            color: scheme.onSurfaceVariant,
+                          ),
                         ),
                       ],
                       const SizedBox(height: 16),
@@ -83,7 +87,11 @@ class WorkoutDetailPage extends ConsumerWidget {
                         children: [
                           _stat(context, '${detail.exerciseCount}', '动作'),
                           _stat(context, '${detail.totalSets}', '组数'),
-                          _stat(context, formatWeight(detail.totalVolume), '总容量 kg'),
+                          _stat(
+                            context,
+                            formatWeight(detail.totalVolume),
+                            '总容量 kg',
+                          ),
                         ],
                       ),
                     ],
@@ -106,34 +114,38 @@ class WorkoutDetailPage extends ConsumerWidget {
                                 child: Text(
                                   de.exercise.name,
                                   style: const TextStyle(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w600),
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w600,
+                                  ),
                                 ),
                               ),
                               Text(
                                 de.exercise.muscleGroup,
                                 style: TextStyle(
-                                    fontSize: 12,
-                                    color: scheme.onSurfaceVariant),
-                              ),                            ],
+                                  fontSize: 12,
+                                  color: scheme.onSurfaceVariant,
+                                ),
+                              ),
+                            ],
                           ),
                           const SizedBox(height: 8),
                           if (de.sets.isEmpty)
                             Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(vertical: 4),
+                              padding: const EdgeInsets.symmetric(vertical: 4),
                               child: Text(
                                 '未记录训练组',
                                 style: TextStyle(
-                                    fontSize: 13,
-                                    color: scheme.onSurfaceVariant),
+                                  fontSize: 13,
+                                  color: scheme.onSurfaceVariant,
+                                ),
                               ),
                             )
                           else
                             for (var i = 0; i < de.sets.length; i++)
                               Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(vertical: 3),
+                                padding: const EdgeInsets.symmetric(
+                                  vertical: 3,
+                                ),
                                 child: Row(
                                   children: [
                                     SizedBox(
@@ -141,28 +153,31 @@ class WorkoutDetailPage extends ConsumerWidget {
                                       child: Text(
                                         '${i + 1}',
                                         style: TextStyle(
-                                            fontSize: 13,
-                                            color:
-                                                scheme.onSurfaceVariant),
+                                          fontSize: 13,
+                                          color: scheme.onSurfaceVariant,
+                                        ),
                                       ),
                                     ),
                                     Text(
                                       formatWeight(de.sets[i].weight),
                                       style: const TextStyle(
-                                          fontSize: 17,
-                                          fontWeight: FontWeight.w600),
+                                        fontSize: 17,
+                                        fontWeight: FontWeight.w600,
+                                      ),
                                     ),
                                     Text(
                                       ' kg × ',
                                       style: TextStyle(
-                                          fontSize: 13,
-                                          color: scheme.onSurfaceVariant),
+                                        fontSize: 13,
+                                        color: scheme.onSurfaceVariant,
+                                      ),
                                     ),
                                     Text(
                                       '${de.sets[i].reps}',
                                       style: const TextStyle(
-                                          fontSize: 17,
-                                          fontWeight: FontWeight.w600),
+                                        fontSize: 17,
+                                        fontWeight: FontWeight.w600,
+                                      ),
                                     ),
                                   ],
                                 ),

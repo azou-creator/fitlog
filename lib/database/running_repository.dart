@@ -16,7 +16,9 @@ class RunningRepository {
     int? averageHeartRate,
     String? note,
   }) {
-    return _db.into(_db.runningRecords).insert(
+    return _db
+        .into(_db.runningRecords)
+        .insert(
           RunningRecordsCompanion.insert(
             date: date,
             distanceKm: distanceKm,
@@ -35,45 +37,50 @@ class RunningRepository {
     int? averageHeartRate,
     String? note,
   }) {
-    return (_db.update(_db.runningRecords)..where((r) => r.id.equals(id)))
-        .write(RunningRecordsCompanion(
-      date: Value(date),
-      distanceKm: Value(distanceKm),
-      durationSeconds: Value(durationSeconds),
-      averageHeartRate: Value(averageHeartRate),
-      note: Value(_clean(note)),
-      updatedAt: Value(DateTime.now()),
-    ));
+    return (_db.update(
+      _db.runningRecords,
+    )..where((r) => r.id.equals(id))).write(
+      RunningRecordsCompanion(
+        date: Value(date),
+        distanceKm: Value(distanceKm),
+        durationSeconds: Value(durationSeconds),
+        averageHeartRate: Value(averageHeartRate),
+        note: Value(_clean(note)),
+        updatedAt: Value(DateTime.now()),
+      ),
+    );
   }
 
   Future<void> delete(int id) {
-    return (_db.delete(_db.runningRecords)..where((r) => r.id.equals(id)))
-        .go();
+    return (_db.delete(_db.runningRecords)..where((r) => r.id.equals(id))).go();
   }
 
   Future<RunningRecord?> getById(int id) {
-    return (_db.select(_db.runningRecords)..where((r) => r.id.equals(id)))
-        .getSingleOrNull();
+    return (_db.select(
+      _db.runningRecords,
+    )..where((r) => r.id.equals(id))).getSingleOrNull();
   }
 
   Future<List<RunningRecord>> getAll() {
-    return (_db.select(_db.runningRecords)
-          ..orderBy([(r) => OrderingTerm.desc(r.date)]))
-        .get();
+    return (_db.select(
+      _db.runningRecords,
+    )..orderBy([(r) => OrderingTerm.desc(r.date)])).get();
   }
 
   Stream<List<RunningRecord>> watchAll() {
-    return (_db.select(_db.runningRecords)
-          ..orderBy([(r) => OrderingTerm.desc(r.date)]))
-        .watch();
+    return (_db.select(
+      _db.runningRecords,
+    )..orderBy([(r) => OrderingTerm.desc(r.date)])).watch();
   }
 
   /// 某时间区间内的跑步记录（含头含尾），用于统计。
   Future<List<RunningRecord>> getBetween(DateTime start, DateTime end) {
     return (_db.select(_db.runningRecords)
-          ..where((r) =>
-              r.date.isBiggerOrEqualValue(start) &
-              r.date.isSmallerOrEqualValue(end))
+          ..where(
+            (r) =>
+                r.date.isBiggerOrEqualValue(start) &
+                r.date.isSmallerOrEqualValue(end),
+          )
           ..orderBy([(r) => OrderingTerm.asc(r.date)]))
         .get();
   }

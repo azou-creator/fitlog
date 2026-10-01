@@ -113,10 +113,9 @@ final runDistance30Provider = FutureProvider<List<DayPoint>>((ref) async {
   final start = today.subtract(const Duration(days: 29));
 
   try {
-    final runs = await ref.watch(runningRepositoryProvider).getBetween(
-          start,
-          now,
-        );
+    final runs = await ref
+        .watch(runningRepositoryProvider)
+        .getBetween(start, now);
     final byDay = <DateTime, double>{};
     for (final r in runs) {
       final k = DateTime(r.date.year, r.date.month, r.date.day);
@@ -136,44 +135,54 @@ final runDistance30Provider = FutureProvider<List<DayPoint>>((ref) async {
 });
 
 /// 某个动作的重量趋势：每次训练当天的最大重量。
-final exerciseTrendProvider =
-    FutureProvider.family<List<DayPoint>, int>((ref, exerciseId) async {
+final exerciseTrendProvider = FutureProvider.family<List<DayPoint>, int>((
+  ref,
+  exerciseId,
+) async {
   ref.watch(dataChangeProvider);
   final db = ref.watch(appDatabaseProvider);
 
   try {
-    final query = db.select(db.workoutExercises).join([
-      innerJoin(db.workoutSessions,
-          db.workoutSessions.id.equalsExp(db.workoutExercises.workoutSessionId)),
-    ])
-      ..where(db.workoutExercises.exerciseId.equals(exerciseId))
-      ..orderBy([OrderingTerm.asc(db.workoutSessions.startTime)]);
+    final query =
+        db.select(db.workoutExercises).join([
+            innerJoin(
+              db.workoutSessions,
+              db.workoutSessions.id.equalsExp(
+                db.workoutExercises.workoutSessionId,
+              ),
+            ),
+          ])
+          ..where(db.workoutExercises.exerciseId.equals(exerciseId))
+          ..orderBy([OrderingTerm.asc(db.workoutSessions.startTime)]);
 
     final rows = await query.get();
     final points = <DayPoint>[];
     for (final row in rows) {
       final we = row.readTable(db.workoutExercises);
       final session = row.readTable(db.workoutSessions);
-      final sets = await (db.select(db.workoutSets)
-            ..where((s) => s.workoutExerciseId.equals(we.id)))
-          .get();
+      final sets = await (db.select(
+        db.workoutSets,
+      )..where((s) => s.workoutExerciseId.equals(we.id))).get();
       final valid = sets.where((s) => s.reps > 0).toList();
       if (valid.isEmpty) continue;
-      final maxWeight = valid.map((s) => s.weight).reduce(
-            (a, b) => a > b ? a : b,
-          );
+      final maxWeight = valid
+          .map((s) => s.weight)
+          .reduce((a, b) => a > b ? a : b);
       final day = DateTime(
-          session.startTime.year, session.startTime.month, session.startTime.day);
+        session.startTime.year,
+        session.startTime.month,
+        session.startTime.day,
+      );
       points.add((day: day, value: maxWeight));
     }
     // 同一天同动作只保留最大重量
     final dedup = <DateTime, double>{};
     for (final p in points) {
-      dedup[p.day] = p.value > (dedup[p.day] ?? 0) ? p.value : (dedup[p.day] ?? 0);
+      dedup[p.day] = p.value > (dedup[p.day] ?? 0)
+          ? p.value
+          : (dedup[p.day] ?? 0);
     }
-    return [
-      for (final e in dedup.entries) (day: e.key, value: e.value),
-    ];
+    return [for (final e in dedup.entries) (day: e.key, value: e.value)];
   } catch (e) {
     debugPrint('加载动作趋势失败: $e');
     return [];

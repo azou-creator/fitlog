@@ -24,10 +24,8 @@ class WorkoutSummaryPage extends ConsumerWidget {
       ),
       body: detailAsync.when(
         loading: () => const Center(child: CircularProgressIndicator()),
-        error: (e, _) => const EmptyState(
-          icon: Icons.error_outline_rounded,
-          title: '加载失败',
-        ),
+        error: (e, _) =>
+            const EmptyState(icon: Icons.error_outline_rounded, title: '加载失败'),
         data: (detail) {
           if (detail == null) {
             return const EmptyState(
@@ -40,21 +38,21 @@ class WorkoutSummaryPage extends ConsumerWidget {
             padding: const EdgeInsets.all(24),
             children: [
               const SizedBox(height: 8),
-              Icon(Icons.check_circle_rounded,
-                  size: 64, color: scheme.primary),
+              Icon(Icons.check_circle_rounded, size: 64, color: scheme.primary),
               const SizedBox(height: 16),
               Text(
                 s.name,
                 textAlign: TextAlign.center,
                 style: const TextStyle(
-                    fontSize: 24, fontWeight: FontWeight.w700),
+                  fontSize: 24,
+                  fontWeight: FontWeight.w700,
+                ),
               ),
               const SizedBox(height: 4),
               Text(
                 '${formatFullDate(s.startTime)} · ${formatDurationCN(s.durationSeconds)}',
                 textAlign: TextAlign.center,
-                style: TextStyle(
-                    fontSize: 13, color: scheme.onSurfaceVariant),
+                style: TextStyle(fontSize: 13, color: scheme.onSurfaceVariant),
               ),
               const SizedBox(height: 24),
               Card(
@@ -66,8 +64,11 @@ class WorkoutSummaryPage extends ConsumerWidget {
                       const Divider(indent: 60),
                       _row(context, '训练组', '${detail.totalSets} 组'),
                       const Divider(indent: 60),
-                      _row(context, '训练容量',
-                          '${formatWeight(detail.totalVolume)} kg'),
+                      _row(
+                        context,
+                        '训练容量',
+                        '${formatWeight(detail.totalVolume)} kg',
+                      ),
                     ],
                   ),
                 ),
@@ -78,9 +79,10 @@ class WorkoutSummaryPage extends ConsumerWidget {
                 height: 52,
                 child: FilledButton(
                   onPressed: () => context.go('/'),
-                  child: const Text('完成',
-                      style: TextStyle(
-                          fontSize: 16, fontWeight: FontWeight.w600)),
+                  child: const Text(
+                    '完成',
+                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+                  ),
                 ),
               ),
             ],
@@ -96,12 +98,15 @@ class WorkoutSummaryPage extends ConsumerWidget {
       padding: const EdgeInsets.symmetric(vertical: 14),
       child: Row(
         children: [
-          Text(label,
-              style: TextStyle(fontSize: 15, color: scheme.onSurfaceVariant)),
+          Text(
+            label,
+            style: TextStyle(fontSize: 15, color: scheme.onSurfaceVariant),
+          ),
           const Spacer(),
-          Text(value,
-              style: const TextStyle(
-                  fontSize: 17, fontWeight: FontWeight.w600)),
+          Text(
+            value,
+            style: const TextStyle(fontSize: 17, fontWeight: FontWeight.w600),
+          ),
         ],
       ),
     );

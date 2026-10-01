@@ -9,7 +9,13 @@ import 'tables.dart';
 part 'app_database.g.dart';
 
 @DriftDatabase(
-  tables: [Exercises, WorkoutSessions, WorkoutExercises, WorkoutSets, RunningRecords],
+  tables: [
+    Exercises,
+    WorkoutSessions,
+    WorkoutExercises,
+    WorkoutSets,
+    RunningRecords,
+  ],
 )
 class AppDatabase extends _$AppDatabase {
   AppDatabase() : super(_openConnection());
@@ -18,23 +24,47 @@ class AppDatabase extends _$AppDatabase {
   AppDatabase.forTesting(super.e);
 
   @override
-  int get schemaVersion => 2;
+  int get schemaVersion => 3;
+
+  /// P0：数据库级保证「同一时间最多一个进行中的力量训练」。
+  /// 使用 SQLite partial unique index；若老数据中已存在多个 inProgress
+  /// （正常使用几乎不可能），为保护用户数据，跳过建索引并仅记录日志，
+  /// 不变量由 Repository 层事务保证。
+  static const _activeSessionIndexSql =
+      "CREATE UNIQUE INDEX IF NOT EXISTS idx_workout_sessions_active "
+      "ON workout_sessions (status) WHERE status = 'inProgress'";
+
+  Future<void> _createActiveSessionIndexSafely() async {
+    try {
+      await customStatement(_activeSessionIndexSql);
+    } catch (e) {
+      // ignore: avoid_print
+      print('跳过进行中训练唯一索引（已存在多个 inProgress 数据，未做改动）: $e');
+    }
+  }
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
-        onCreate: (m) => m.createAll(),
-        onUpgrade: (m, from, to) async {
-          // v2: 增加 session status 字段（进行中草稿 / 已完成）。
-          // 旧数据全部视为已完成。
-          if (from < 2) {
-            await m.addColumn(workoutSessions, workoutSessions.status);
-          }
-        },
-        beforeOpen: (details) async {
-          // 级联删除依赖外键约束，必须显式开启。
-          await customStatement('PRAGMA foreign_keys = ON');
-        },
-      );
+    onCreate: (m) async {
+      await m.createAll();
+      await _createActiveSessionIndexSafely();
+    },
+    onUpgrade: (m, from, to) async {
+      // v2: 增加 session status 字段（进行中草稿 / 已完成）。
+      // 旧数据全部视为已完成。
+      if (from < 2) {
+        await m.addColumn(workoutSessions, workoutSessions.status);
+      }
+      // v3: 进行中训练的数据库级唯一约束。
+      if (from < 3) {
+        await _createActiveSessionIndexSafely();
+      }
+    },
+    beforeOpen: (details) async {
+      // 级联删除依赖外键约束，必须显式开启。
+      await customStatement('PRAGMA foreign_keys = ON');
+    },
+  );
 }
 
 LazyDatabase _openConnection() {

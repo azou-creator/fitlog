@@ -38,7 +38,8 @@ class DailyBarChart extends StatelessWidget {
             topTitles: const AxisTitles(),
             rightTitles: const AxisTitles(),
             leftTitles: const AxisTitles(
-                sideTitles: SideTitles(showTitles: false)),
+              sideTitles: SideTitles(showTitles: false),
+            ),
             bottomTitles: AxisTitles(
               sideTitles: SideTitles(
                 showTitles: true,
@@ -58,7 +59,9 @@ class DailyBarChart extends StatelessWidget {
                     child: Text(
                       '${d.day}',
                       style: TextStyle(
-                          fontSize: 10, color: scheme.onSurfaceVariant),
+                        fontSize: 10,
+                        color: scheme.onSurfaceVariant,
+                      ),
                     ),
                   );
                 },
@@ -108,7 +111,9 @@ class SimpleLineChart extends StatelessWidget {
     ];
     final maxY = points.fold<double>(0, (m, p) => p.value > m ? p.value : m);
     final minY = points.fold<double>(
-        double.infinity, (m, p) => p.value < m ? p.value : m);
+      double.infinity,
+      (m, p) => p.value < m ? p.value : m,
+    );
     final range = (maxY - minY).clamp(0, double.infinity);
 
     return SizedBox(
@@ -142,7 +147,9 @@ class SimpleLineChart extends StatelessWidget {
                     child: Text(
                       formatWeight(value),
                       style: TextStyle(
-                          fontSize: 10, color: scheme.onSurfaceVariant),
+                        fontSize: 10,
+                        color: scheme.onSurfaceVariant,
+                      ),
                     ),
                   );
                 },
@@ -169,7 +176,9 @@ class SimpleLineChart extends StatelessWidget {
                     child: Text(
                       '${d.month}/${d.day}',
                       style: TextStyle(
-                          fontSize: 10, color: scheme.onSurfaceVariant),
+                        fontSize: 10,
+                        color: scheme.onSurfaceVariant,
+                      ),
                     ),
                   );
                 },
@@ -200,8 +209,7 @@ class SimpleLineChart extends StatelessWidget {
   double _niceInterval(double raw) {
     if (raw <= 0) return 1;
     if (raw < 1) return 0.5;
-    final mag =
-        math.pow(10, (math.log(raw) / math.ln10).floor()).toDouble();
+    final mag = math.pow(10, (math.log(raw) / math.ln10).floor()).toDouble();
     for (final m in [1.0, 2.0, 5.0, 10.0]) {
       if (mag * m >= raw) return mag * m;
     }

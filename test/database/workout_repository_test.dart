@@ -66,10 +66,14 @@ void main() {
   });
 
   test('创建自定义动作；同名同部位不会重复创建', () async {
-    final id1 =
-        await exerciseRepo.createCustom(name: '农夫行走', muscleGroup: '核心');
-    final id2 =
-        await exerciseRepo.createCustom(name: '农夫行走', muscleGroup: '核心');
+    final id1 = await exerciseRepo.createCustom(
+      name: '农夫行走',
+      muscleGroup: '核心',
+    );
+    final id2 = await exerciseRepo.createCustom(
+      name: '农夫行走',
+      muscleGroup: '核心',
+    );
     expect(id1, id2);
 
     final all = await exerciseRepo.getAll();
@@ -128,10 +132,7 @@ void main() {
       expect(detail.exercises[0].sets[0].weight, 60);
       expect(detail.exercises[0].sets[1].weight, 80);
       expect(detail.exercises[1].sets.first.weight, 22.5);
-      expect(
-        detail.totalVolume,
-        closeTo(60 * 12 + 80 * 10 + 22.5 * 12, 0.01),
-      );
+      expect(detail.totalVolume, closeTo(60 * 12 + 80 * 10 + 22.5 * 12, 0.01));
     });
 
     test('进行中的训练可恢复；完成后状态变更', () async {
@@ -283,8 +284,8 @@ void main() {
       },
     );
 
-    final newId = await workoutRepo.repeatSession(sourceId);
-    final draft = await workoutRepo.loadDraftForEdit(newId);
+    final session = await workoutRepo.createOrResumeFromSession(sourceId);
+    final draft = await workoutRepo.loadDraftForEdit(session.id);
 
     expect(draft, isNotNull);
     expect(draft!.isInProgress, isTrue);
@@ -330,8 +331,9 @@ void main() {
     expect(refs[benchId]!.last.$1, 80);
 
     // 编辑第二次训练本身时，应参考它上一次（60 / 70）
-    final refsExcludingSelf =
-        await workoutRepo.lastPerformanceMap(latestId, [benchId]);
+    final refsExcludingSelf = await workoutRepo.lastPerformanceMap(latestId, [
+      benchId,
+    ]);
     expect(refsExcludingSelf[benchId]!.first.$1, 60);
     expect(refsExcludingSelf[benchId]!.first.$2, 12);
   });

@@ -14,7 +14,10 @@ double calcTotalVolume(Iterable<({double weight, int reps})> sets) {
 }
 
 /// 平均配速（秒 / km）。距离非法时返回 0。
-int paceSecondsPerKm({required int durationSeconds, required double distanceKm}) {
+int paceSecondsPerKm({
+  required int durationSeconds,
+  required double distanceKm,
+}) {
   if (distanceKm <= 0 || durationSeconds <= 0) return 0;
   return (durationSeconds / distanceKm).round();
 }

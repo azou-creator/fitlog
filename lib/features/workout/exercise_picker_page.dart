@@ -15,8 +15,7 @@ class ExercisePickerPage extends ConsumerStatefulWidget {
   const ExercisePickerPage({super.key});
 
   @override
-  ConsumerState<ExercisePickerPage> createState() =>
-      _ExercisePickerPageState();
+  ConsumerState<ExercisePickerPage> createState() => _ExercisePickerPageState();
 }
 
 class _ExercisePickerPageState extends ConsumerState<ExercisePickerPage> {
@@ -80,8 +79,7 @@ class _ExercisePickerPageState extends ConsumerState<ExercisePickerPage> {
           ),
           Expanded(
             child: allAsync.when(
-              loading: () =>
-                  const Center(child: CircularProgressIndicator()),
+              loading: () => const Center(child: CircularProgressIndicator()),
               error: (_, _) => const EmptyState(
                 icon: Icons.error_outline_rounded,
                 title: '加载失败',
@@ -99,12 +97,13 @@ class _ExercisePickerPageState extends ConsumerState<ExercisePickerPage> {
             width: double.infinity,
             height: 50,
             child: FilledButton(
-              onPressed:
-                  _selectedIds.isEmpty ? null : () => _confirm(allAsync),
+              onPressed: _selectedIds.isEmpty ? null : () => _confirm(allAsync),
               child: Text(
                 _selectedIds.isEmpty ? '添加动作' : '添加 ${_selectedIds.length} 个动作',
                 style: const TextStyle(
-                    fontSize: 16, fontWeight: FontWeight.w600),
+                  fontSize: 16,
+                  fontWeight: FontWeight.w600,
+                ),
               ),
             ),
           ),
@@ -206,8 +205,10 @@ class _ExercisePickerPageState extends ConsumerState<ExercisePickerPage> {
 
     return ListView.builder(
       padding: const EdgeInsets.only(bottom: 24, top: 4),
-      itemCount: orderedGroups
-          .fold<int>(0, (n, g) => n + 1 + grouped[g]!.length),
+      itemCount: orderedGroups.fold<int>(
+        0,
+        (n, g) => n + 1 + grouped[g]!.length,
+      ),
       itemBuilder: (context, index) {
         var cursor = index;
         for (final group in orderedGroups) {
@@ -232,8 +233,10 @@ class _ExercisePickerPageState extends ConsumerState<ExercisePickerPage> {
             return CheckboxListTile(
               value: selected,
               controlAffinity: ListTileControlAffinity.trailing,
-              contentPadding:
-                  const EdgeInsets.symmetric(horizontal: 16, vertical: 0),
+              contentPadding: const EdgeInsets.symmetric(
+                horizontal: 16,
+                vertical: 0,
+              ),
               title: Text(e.name),
               subtitle: e.isCustom
                   ? const Text('自定义', style: TextStyle(fontSize: 12))

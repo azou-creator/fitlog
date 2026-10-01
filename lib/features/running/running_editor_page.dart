@@ -38,8 +38,9 @@ class _RunningEditorPageState extends ConsumerState<RunningEditorPage> {
     final editId = widget.editRecordId;
     if (editId != null) {
       Future(() async {
-        final record =
-            await ref.read(runningRepositoryProvider).getById(editId);
+        final record = await ref
+            .read(runningRepositoryProvider)
+            .getById(editId);
         if (!mounted) return;
         if (record != null) _prefill(record);
         setState(() => _ready = true);
@@ -119,11 +120,16 @@ class _RunningEditorPageState extends ConsumerState<RunningEditorPage> {
                   Text(
                     _dateLabel(),
                     style: TextStyle(
-                        fontSize: 14, color: scheme.onSurfaceVariant),
+                      fontSize: 14,
+                      color: scheme.onSurfaceVariant,
+                    ),
                   ),
                   const Spacer(),
-                  Icon(Icons.expand_more_rounded,
-                      size: 18, color: scheme.onSurfaceVariant),
+                  Icon(
+                    Icons.expand_more_rounded,
+                    size: 18,
+                    color: scheme.onSurfaceVariant,
+                  ),
                 ],
               ),
             ),
@@ -138,28 +144,42 @@ class _RunningEditorPageState extends ConsumerState<RunningEditorPage> {
                 child: TextField(
                   controller: _distanceCtrl,
                   autofocus: !isEdit,
-                  keyboardType:
-                      const TextInputType.numberWithOptions(decimal: true),
+                  keyboardType: const TextInputType.numberWithOptions(
+                    decimal: true,
+                  ),
                   inputFormatters: [DecimalInputFormatter()],
                   style: const TextStyle(
-                      fontSize: 40, fontWeight: FontWeight.w700, height: 1.1),
+                    fontSize: 40,
+                    fontWeight: FontWeight.w700,
+                    height: 1.1,
+                  ),
                   decoration: const InputDecoration(
-                      hintText: '0', counterText: '', isDense: true),
+                    hintText: '0',
+                    counterText: '',
+                    isDense: true,
+                  ),
                   onChanged: (_) => setState(() {}),
                 ),
               ),
               const SizedBox(width: 8),
-              Text('km',
-                  style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.w600,
-                      color: scheme.onSurfaceVariant)),
+              Text(
+                'km',
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.w600,
+                  color: scheme.onSurfaceVariant,
+                ),
+              ),
               const Spacer(),
               Padding(
                 padding: const EdgeInsets.only(bottom: 6),
-                child: Text('距离',
-                    style: TextStyle(
-                        fontSize: 13, color: scheme.onSurfaceVariant)),
+                child: Text(
+                  '距离',
+                  style: TextStyle(
+                    fontSize: 13,
+                    color: scheme.onSurfaceVariant,
+                  ),
+                ),
               ),
             ],
           ),
@@ -184,12 +204,19 @@ class _RunningEditorPageState extends ConsumerState<RunningEditorPage> {
             ),
             child: Row(
               children: [
-                Icon(Icons.speed_rounded,
-                    color: scheme.onSecondaryContainer, size: 22),
+                Icon(
+                  Icons.speed_rounded,
+                  color: scheme.onSecondaryContainer,
+                  size: 22,
+                ),
                 const SizedBox(width: 10),
-                Text('平均配速',
-                    style: TextStyle(
-                        fontSize: 14, color: scheme.onSecondaryContainer)),
+                Text(
+                  '平均配速',
+                  style: TextStyle(
+                    fontSize: 14,
+                    color: scheme.onSecondaryContainer,
+                  ),
+                ),
                 const Spacer(),
                 Text(
                   pace,
@@ -204,8 +231,10 @@ class _RunningEditorPageState extends ConsumerState<RunningEditorPage> {
           ),
           const SizedBox(height: 24),
           // 更多信息（弱化）
-          Text('更多信息（可选）',
-              style: TextStyle(fontSize: 13, color: scheme.onSurfaceVariant)),
+          Text(
+            '更多信息（可选）',
+            style: TextStyle(fontSize: 13, color: scheme.onSurfaceVariant),
+          ),
           const SizedBox(height: 8),
           TextField(
             controller: _heartRateCtrl,
@@ -235,7 +264,9 @@ class _RunningEditorPageState extends ConsumerState<RunningEditorPage> {
               child: Text(
                 isEdit ? '保存修改' : '保存',
                 style: const TextStyle(
-                    fontSize: 16, fontWeight: FontWeight.w600),
+                  fontSize: 16,
+                  fontWeight: FontWeight.w600,
+                ),
               ),
             ),
           ),
@@ -246,12 +277,11 @@ class _RunningEditorPageState extends ConsumerState<RunningEditorPage> {
 
   String _dateLabel() {
     final now = DateTime.now();
-    final isToday = now.year == _date.year &&
+    final isToday =
+        now.year == _date.year &&
         now.month == _date.month &&
         now.day == _date.day;
-    return isToday
-        ? '今天 · ${formatMonthDay(_date)}'
-        : formatFullDate(_date);
+    return isToday ? '今天 · ${formatMonthDay(_date)}' : formatFullDate(_date);
   }
 
   Widget _bigTimeField(
@@ -272,15 +302,21 @@ class _RunningEditorPageState extends ConsumerState<RunningEditorPage> {
             ],
             textAlign: TextAlign.center,
             style: const TextStyle(
-                fontSize: 30, fontWeight: FontWeight.w700, height: 1.1),
+              fontSize: 30,
+              fontWeight: FontWeight.w700,
+              height: 1.1,
+            ),
             decoration: InputDecoration(
               hintText: '00',
               hintStyle: TextStyle(
-                  color: scheme.onSurfaceVariant.withValues(alpha: 0.4)),
+                color: scheme.onSurfaceVariant.withValues(alpha: 0.4),
+              ),
               counterText: '',
               isDense: true,
-              contentPadding:
-                  const EdgeInsets.symmetric(horizontal: 4, vertical: 14),
+              contentPadding: const EdgeInsets.symmetric(
+                horizontal: 4,
+                vertical: 14,
+              ),
               enabledBorder: border,
               focusedBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(12),
@@ -290,22 +326,26 @@ class _RunningEditorPageState extends ConsumerState<RunningEditorPage> {
             onChanged: (_) => setState(() {}),
           ),
           const SizedBox(height: 4),
-          Text(label,
-              style:
-                  TextStyle(fontSize: 12, color: scheme.onSurfaceVariant)),
+          Text(
+            label,
+            style: TextStyle(fontSize: 12, color: scheme.onSurfaceVariant),
+          ),
         ],
       ),
     );
   }
 
   Widget _colon(ColorScheme scheme) => Padding(
-        padding: const EdgeInsets.only(left: 8, right: 8, bottom: 20),
-        child: Text(':',
-            style: TextStyle(
-                fontSize: 24,
-                fontWeight: FontWeight.w700,
-                color: scheme.onSurfaceVariant)),
-      );
+    padding: const EdgeInsets.only(left: 8, right: 8, bottom: 20),
+    child: Text(
+      ':',
+      style: TextStyle(
+        fontSize: 24,
+        fontWeight: FontWeight.w700,
+        color: scheme.onSurfaceVariant,
+      ),
+    ),
+  );
 
   Future<void> _pickDate() async {
     final picked = await showDatePicker(
